@@ -4,7 +4,6 @@ Flask-SocketIO==3.3.1
 itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.1
-pkg-resources==0.0.0
 python-engineio==3.4.3
 python-socketio==3.1.2
 pyxtermjs==0.4.0.0
