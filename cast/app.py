@@ -94,7 +94,7 @@ def main():
     parser = argparse.ArgumentParser(
         description=(
             "A fully functional terminal in your browser. "
-            "https://github.com/cs01/pyxterm.js"
+            "https://github.com/hericlesme/cast.sh"
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -113,9 +113,9 @@ def main():
     if args.version:
         print(__version__)
         exit(0)
-    print(f"serving on http://127.0.0.1:{args.port}")
+    print(f"serving on http://0.0.0.0:{args.port}")
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
-    socketio.run(app, debug=args.debug, port=args.port)
+    socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
 
 
 if __name__ == "__main__":
