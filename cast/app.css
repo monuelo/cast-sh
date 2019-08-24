@@ -1,0 +1,73 @@
+body,
+html {
+  background: black;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 100%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #1a1a1a;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a1a1a1;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.divider {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #a1a1a189;
+  margin: 1em 0;
+  margin-top: 0.5em;
+  padding: 0;
+}
+
+.terminal {
+  width: 100%;
+  height: calc(100% - 50px - 2em);
+}
+
+.title {
+  font-size: 1.4em;
+  color: white;
+}
+
+.status {
+  font-size: small;
+  color: white;
+  margin-right: 10px;
+}
+
+#status > span {
+  color: #1a1a1a;
+  padding: 0 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.connected {
+  background-color: greenyellow;
+}
+
+.disconnected {
+  background-color: #ff8383;
+}

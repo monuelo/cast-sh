@@ -8,15 +8,17 @@
       font-family: arial;
     }
   </style>
+  <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css" />
 </head>
 
 <body>
-
-  <span style="font-size: 1.4em;">cast.sh</span>&nbsp;&nbsp;&nbsp;
-  <span style="font-size: small;">status: <span style="font-size: small;" id="status">connecting...</span></span>
-
-  <div style="width: 100%; height: calc(100% - 50px);" id="terminal"></div>
+  <div class="header">
+    <span class="title">cast.sh</span>&nbsp;&nbsp;&nbsp;
+    <span class="status">status: <span style="font-size: small;" id="status">connecting...</span></span>
+  </div>
+  <div class="divider"></div>
+  <div class="terminal" id="terminal"></div>
 
   <!-- xterm -->
   <script src="https://unpkg.com/xterm@3.6.0/dist/xterm.js"></script>

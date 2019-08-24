@@ -1,0 +1,26 @@
+*# TST test codes*
+
+_DefaultError:_ e
+_Timeout:_ t
+_Success:_ .
+_QuasiSuccess:_ *
+_AllTokensSequence:_ @
+_AllTokensMultiset:_ &
+_MissingTokens:_ %
+_Fail:_ F
+_ScriptTestError:_ !
+_Inconclusive:_ ?
+_UNKNOWN:_ -
+_NoInterpreterError:_ X
+
+*# Python ERROR codes*
+
+_AttributeError:_ a
+_SyntaxError:_ s
+_EOFError:_ o
+_ZeroDivisionError:_ z
+_IndentationError:_ i
+_IndexError:_ x
+_ValueError:_ v
+_TypeError:_ y
+_NameError:_ n
