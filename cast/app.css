@@ -54,13 +54,20 @@ html {
 }
 
 #status > span {
-    color: #1a1a1a;
-    padding: 0 10px;
-    background: white;
+  color: #1a1a1a;
+  padding: 0 10px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.connected {
+  background-color: greenyellow;
+}
+
+.disconnected {
+  background-color: #ff8383;
 }

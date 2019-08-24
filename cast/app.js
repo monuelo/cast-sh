@@ -35,12 +35,12 @@ socket.on("pty-output", function(data) {
 socket.on("connect", () => {
   fitToscreen();
   status.innerHTML =
-    '<span style="background-color: lightgreen;">connected</span>';
+    '<span class="connected">connected</span>';
 });
 
 socket.on("disconnect", () => {
   status.innerHTML =
-    '<span style="background-color: #ff8383;">disconnected</span>';
+    '<span class="disconnected">disconnected</span>';
 });
 
 function fitToscreen() {
