@@ -12,10 +12,10 @@ import fcntl
 import shlex
 
 
-__version__ = "0.4.0.1"
+__version__ = "0.0.1"
 
 app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
-app.config["SECRET_KEY"] = "secret!"
+# app.config["SECRET_KEY"] = "secret!"
 app.config["fd"] = None
 app.config["child_pid"] = None
 socketio = SocketIO(app)

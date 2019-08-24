@@ -6,14 +6,18 @@ const term = new Terminal({
   cursorBlink: true,
   macOptionIsMeta: true,
   scrollback: true
+
 });
+
+const MAX_LINES = 9999999;
+
 term.open(document.getElementById("terminal"));
 term.fit();
-term.resize(15, 50);
 console.log(`size: ${term.cols} columns, ${term.rows} rows`);
 
 term.fit();
-term.write("Welcome to cast.sh!\nhttps://github.com/hericlesme/cast.sh\n");
+term.setOption("scrollback", MAX_LINES);
+term.writeln("Welcome to cast.sh! - https://github.com/hericlesme/cast.sh - Press [Enter] to Start");
 term.on("key", (key, ev) => {
   console.log("pressed key", key);
   console.log("event", ev);
