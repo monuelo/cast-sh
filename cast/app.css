@@ -4,25 +4,21 @@ html {
   font-family: "Courier New", Courier, monospace;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 5px;
   height: 100%;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   border-radius: 10px;
   background: #1a1a1a;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #a1a1a1;
   border-radius: 10px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
