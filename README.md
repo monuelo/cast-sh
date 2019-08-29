@@ -1,6 +1,6 @@
 # cast-sh
 
-A instance of your in your browser
+An adorable instance of your terminal in your browser
 
 
 ## Prerequisites
