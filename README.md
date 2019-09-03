@@ -1,4 +1,4 @@
-# cast-sh
+# cast.sh
 
 An adorable instance of your terminal in your browser
 
