@@ -16,21 +16,28 @@ __version__ = "0.0.1"
 app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
 app.config["fd"] = None
 app.config["child_pid"] = None
-app.config["curr_session"] = None
+app.config["current_session"] = None
 app.config["sessions"] = {}
 socketio = SocketIO(app)
+
+def setup_default_session(session_id):
+    app.config["current_session"] = session_id
+    app.config["sessions"][session_id] = {"fd": None, "child_pid": None}
+
+    return app.config["sessions"][session_id]
 
 def read_and_forward_pty_output():
     max_read_bytes = 1024 * 20
     while True:
-        session = app.config["sessions"][app.config["curr_session"]]
+
+        file_desc = app.config["sessions"][app.config["current_session"]]["fd"]
 
         socketio.sleep(0.01)
-        if app.config["sessions"][app.config["curr_session"]]["fd"]:
+        if file_desc:
             timeout_sec = 0
-            (data_ready, _, _) = select.select([app.config["sessions"][app.config["curr_session"]]["fd"]], [], [], timeout_sec)
+            (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
             if data_ready:
-                output = os.read(app.config["sessions"][app.config["curr_session"]]["fd"], max_read_bytes).decode()
+                output = os.read(file_desc, max_read_bytes).decode()
                 socketio.emit("client-output", {"output": output }, namespace="/cast")
 
 
@@ -42,38 +49,27 @@ def index():
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):
 
-    print(data["session_id"])
+    # Update current session    
+    app.config["current_session"] = data["session_id"]
 
-    if app.config["sessions"][data["session_id"]]["fd"]:
-        os.write(app.config["sessions"][data["session_id"]]["fd"], data["input"].encode())
-        app.config["curr_session"] = data["session_id"]
+    file_desc = app.config["sessions"][data["session_id"]]["fd"]
+    
+    if file_desc: os.write(file_desc, data["input"].encode())
 
 @socketio.on("connect", namespace="/cast")
 def connect():
 
-    session_id = request.args.get('session_id')
-        
-    app.config["curr_session"] = session_id
-    
-    app.config["sessions"][session_id] = {"fd": None, "child_pid": None}
+    session = setup_default_session(request.args.get('session_id'))
 
-
-
-    if (app.config["sessions"][session_id]["child_pid"]):
-        # (child_pid2, fd2) = pty.fork()
-        # app.config["fd2"] = fd2
-        # app.config["child_pid2"] = child_pid2
-        # cmd2 = " ".join(shlex.quote(c) for c in app.config["cmd"])
-        return
+    if (session["child_pid"]): return
 
     (child_pid, fd) = pty.fork()
 
     if child_pid == 0:
         subprocess.run(app.config["cmd"])
     else:
-        print(session_id)
-        app.config["sessions"][session_id]["fd"] = fd
-        app.config["sessions"][session_id]["child_pid"] = child_pid
+        session["fd"] = fd
+        session["child_pid"] = child_pid
        
         cmd = " ".join(shlex.quote(c) for c in app.config["cmd"])
        
