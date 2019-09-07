@@ -5,7 +5,7 @@ Terminal.applyAddon(search);
 
 const sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-console.log(sessionId);
+console.log("Session ID: " + sessionId);
 
 const term = new Terminal({
   cursorBlink: true,
@@ -31,7 +31,6 @@ const socket = io.connect("/cast", { query: `session_id=${sessionId}` });
 const status = document.getElementById("status");
 
 socket.on("client-output", function (data) {
-  console.log("new output", data);
   term.write(data.output);
 });
 
@@ -47,6 +46,5 @@ socket.on("disconnect", () => {
 
 
 window.addEventListener("resize", () => {
-  console.log('fitting');
   term.fit();
 });
