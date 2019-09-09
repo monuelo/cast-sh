@@ -38,7 +38,7 @@ def read_and_forward_pty_output():
             (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
             if data_ready:
                 output = os.read(file_desc, max_read_bytes).decode()
-                socketio.emit("client-output", {"output": output }, namespace="/cast")
+                socketio.emit("client-output", {"output": output, "ssid": app.config["current_session"] }, namespace="/cast")
 
 
 @app.route("/")

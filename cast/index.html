@@ -5,23 +5,27 @@
   <title>cast.sh</title>
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css" />
+  <link rel="shortcut icon" type="image/png"
+    href="https://cdn1.iconfinder.com/data/icons/single-width-stroke/24/terminal-128.png" />
 </head>
 
 <body>
   <div class="header">
     <span class="title">cast.sh</span>&nbsp;&nbsp;&nbsp;
-    <span class="status">status: <span style="font-size: small;" id="status">connecting...</span></span>
+    <div id="create-tab" onclick={createTab()}>+</div>
+    <div class="status">
+      <span>status: <span style="font-size: small;" id="status">connecting...</span></span>
+    </div>
   </div>
   <div class="divider"></div>
-  <div class="terminal" id="terminal"></div>
-
+  <div id="term-container"></div>
+  </div>
   <script src="https://unpkg.com/xterm@3.6.0/dist/xterm.js"></script>
   <script src="https://unpkg.com/xterm@3.6.0/dist/addons/fit/fit.js"></script>
   <script src="https://unpkg.com/xterm@3.6.0/dist/addons/webLinks/webLinks.js"></script>
   <script src="https://unpkg.com/xterm@3.6.0/dist/addons/fullscreen/fullscreen.js"></script>
   <script src="https://unpkg.com/xterm@3.6.0/dist/addons/search/search.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-
   <script src="app.js"></script>
 </body>
 
