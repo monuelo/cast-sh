@@ -44,9 +44,10 @@ html {
 }
 
 .status {
-  font-size: small;
+  position: absolute;
   color: white;
   margin-right: 10px;
+  right: 0;
 }
 
 #status > span {
@@ -56,7 +57,7 @@ html {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
 }
 
@@ -67,3 +68,21 @@ html {
 .disconnected {
   background-color: #ff8383;
 }
+
+
+#create-tab, .tab {
+  color: white;
+  background: #1f1f1f;
+  padding: 10px;
+  transition: .2s;
+  margin: 0 1px;
+}
+
+#create-tab:hover {
+  background: #333333;
+  cursor: pointer;
+}
+
+/* .tab:active {
+  background-color: greenyellow;
+} */
