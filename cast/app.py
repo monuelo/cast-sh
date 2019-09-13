@@ -84,7 +84,7 @@ def main():
     if args.version:
         print(__version__)
         exit(0)
-    print(f"serving on http://0.0.0.0:{args.port}")
+    print("serving on http://0.0.0.0:{args.port}")
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
 
