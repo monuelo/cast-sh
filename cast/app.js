@@ -1,9 +1,10 @@
 const $ = document.querySelector.bind(document);
-var currentSession;
+var currentSsid = '';
 var tabs = []
 var sessions = [];
 var TID = 0;
 const MAX_LINES = 9999999;
+let socket;
 
 const generateSSID = () => (
   Math.random().toString(36).substring(2, 15)
@@ -18,7 +19,7 @@ Terminal.applyAddon(search);
 
 
 
-const termSetup = (term, ssid) => {
+const termSetup = (term, ssid, newCurrentSession) => {
 
   term.open(document.getElementById(ssid));
   term.fit();
@@ -26,10 +27,12 @@ const termSetup = (term, ssid) => {
   term.writeln("Welcome to cast.sh! - https://github.com/hericlesme/cast-sh - Press [Enter] to Start");
 
   term.on("key", (key, ev) => {
-    socket.emit("client-input", { input: key, session_id: ssid });
+    // 'currentSsid' is global
+    console.log(`client-input:: from: ${currentSsid})}`);
+    socket.emit("client-input", { input: key, session_id: currentSsid });
   });
 
-  getTabBySSID(ssid).session = currentSession;
+  getTabBySSID(ssid).session = newCurrentSession;
 }
 
 const Cast = (ssid, tid) => {
@@ -40,9 +43,9 @@ const Cast = (ssid, tid) => {
     scrollback: true
   });
 
-  currentSession = { ssid: ssid, term: term, tid: tid };
-  termSetup(term, ssid);
-  return currentSession;
+  newCurrentSession = { ssid: ssid, term: term, tid: tid };
+  termSetup(term, ssid, newCurrentSession);
+  return newCurrentSession;
 }
 
 const resetStyle = (tid) => {
@@ -74,7 +77,16 @@ const openSession = (tid) => {
   let tab = getTabByTID(tid);
   console.log(tab.ssid);
   // currentSession = tab.session;
+  currentSsid = tab.session.ssid;
   document.getElementById(tab.ssid).style.display = "block";
+  console.log(`openSession:: ${JSON.stringify(currentSsid)}`)
+  if (socket) {
+    // To register new session on WebSocket server
+    socket.emit("new-session", { session_id: currentSsid });
+
+    // To mark current tab as the current session on WebSocket server
+    socket.emit("client-input", { input: '', session_id: currentSsid });
+  }
 }
 
 
@@ -98,6 +110,7 @@ const appendTab = (ssid) => {
   tab.addEventListener('click', (e) => {
     console.log(e.target.id);
     openSession(e.target.id);
+    currentSsid = ssid;
   })
 
   header.insertBefore(tab, element);
@@ -126,6 +139,7 @@ const createTab = () => {
   console.log(sessions);
 
   openSession(TID - 1);
+  return ssid;
 }
 
 
@@ -135,13 +149,13 @@ const getTabByTID = (tid) => tabs.find(t => t.tid == tid);
 
 const getTabBySSID = (ssid) => tabs.find(t => t.ssid == ssid);
 
-createTab();
+currentSsid = createTab();
 
 
 /*** Socket Settings ***/
 
 
-const socket = io.connect("/cast", { query: `session_id=${currentSession.ssid}` });
+socket = io.connect("/cast", { query: `session_id=${currentSsid}` });
 const status = document.getElementById("status");
 
 socket.on("client-output", (data) => {
@@ -162,5 +176,5 @@ socket.on("disconnect", () => {
 
 
 window.addEventListener("resize", () => {
-  currentSession.term.fit();
+  getTabBySSID(currentSsid).session.term.fit();
 });
