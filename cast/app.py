@@ -103,7 +103,7 @@ def new_session(data=None):
 
 
 @socketio.on("connect", namespace="/cast")
-def connect():
+def connect(data=None):
     session_id = request.values.get('session_id') if not request.values.get('session_id') == None else ''
     if session_id == '' and data is not None:
         session_id = data["session_id"]
