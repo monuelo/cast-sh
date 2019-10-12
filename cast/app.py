@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
 import argparse
 from flask import Flask, render_template, request
-from flask_socketio import SocketIO, join_room, leave_room
+from flask_socketio import SocketIO
 import pty
 import os
 import subprocess
 import select
-import termios
-import struct
-import fcntl
 import shlex
 
 __version__ = "0.0.1"
 
-app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
+app = Flask(__name__, template_folder=".",
+            static_folder=".", static_url_path="")
 app.config["fd"] = None
 app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
 socketio = SocketIO(app)
 
+
 def setup_default_session(session_id):
     app.config["current_session"] = session_id
     app.config["sessions"][session_id] = {"fd": None, "child_pid": None}
 
     return app.config["sessions"][session_id]
+
 
 def read_and_forward_pty_output(session_id):
     max_read_bytes = 1024 * 20
@@ -39,10 +39,12 @@ def read_and_forward_pty_output(session_id):
 
             if file_desc:
                 timeout_sec = 0
-                (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
+                (data_ready, _, _) = select.select(
+                    [file_desc], [], [], timeout_sec)
                 if data_ready:
                     output = os.read(file_desc, max_read_bytes).decode()
-                    socketio.emit("client-output", {"output": output, "ssid": app.config["current_session"] }, namespace="/cast")
+                    socketio.emit(
+                        "client-output", {"output": output, "ssid": app.config["current_session"]}, namespace="/cast")
 
 
 @app.route("/")
@@ -100,14 +102,16 @@ def new_session(data=None):
             "and forward pty output to client"
         )
 
-        socketio.start_background_task(target=read_and_forward_pty_output, session_id=session_id)
+        socketio.start_background_task(
+            target=read_and_forward_pty_output, session_id=session_id)
 
         print("new-session: task started")
 
 
 @socketio.on("connect", namespace="/cast")
 def connect(data=None):
-    session_id = request.values.get('session_id') if not request.values.get('session_id') == None else ''
+    session_id = request.values.get('session_id') if not request.values.get(
+        'session_id') is None else ''
     if session_id == '' and data is not None:
         session_id = data["session_id"]
         print("connect: {}\n\n".format(session_id))
@@ -127,18 +131,19 @@ def connect(data=None):
         app.config["sessions"][session_id] = {}
         app.config["sessions"][session_id]["fd"] = fd
         app.config["sessions"][session_id]["child_pid"] = child_pid
-       
+
         cmd = " ".join(shlex.quote(c) for c in app.config["cmd"])
-       
+
         print("connect: child pid is", child_pid)
         print(
             f"connect: starting background task with command `{cmd}` to continously read "
             "and forward pty output to client"
         )
-       
+
         # Output terminal message corresponding to ssid
-        socketio.start_background_task(target=read_and_forward_pty_output, session_id=session_id)
-       
+        socketio.start_background_task(
+            target=read_and_forward_pty_output, session_id=session_id)
+
         print("connect: task started")
 
 
@@ -150,9 +155,12 @@ def main():
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-p", "--port", default=5000, help="port to run server on")
-    parser.add_argument("--debug", action="store_true", help="debug the server")
-    parser.add_argument("--version", action="store_true", help="print version and exit")
+    parser.add_argument("-p", "--port", default=5000,
+                        help="port to run server on")
+    parser.add_argument("--debug", action="store_true",
+                        help="debug the server")
+    parser.add_argument("--version", action="store_true",
+                        help="print version and exit")
     parser.add_argument(
         "--command", default="bash", help="Command to run in the terminal"
     )
