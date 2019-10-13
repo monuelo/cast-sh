@@ -95,7 +95,7 @@ const openSession = (tid) => {
 const newTab = (ssid) => {
   let tab = document.createElement("div");
   tab.className = "tab";
-  tab.innerText = "tab";
+  tab.innerText = "tab " + (sessions.length+1);
   tab.id = TID;
 
   tabs.push({ tid: TID, ssid: ssid, session: null });
