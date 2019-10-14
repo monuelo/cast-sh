@@ -1,5 +1,15 @@
 # cast.sh
 
+<p align="left">
+    <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/hericlesme/cast-sh" /></a>
+    <a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/hericlesme/cast-sh" /></a>
+    <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/alerts/">
+        <img src="https://img.shields.io/lgtm/alerts/g/hericlesme/cast-sh"
+            alt="Total alerts"/></a>
+</p>
+
 An adorable instance of your terminal in your browser
 
 
