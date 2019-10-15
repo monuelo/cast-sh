@@ -69,6 +69,14 @@ html {
   background-color: #ff8383;
 }
 
+.log {
+  width: 5rem;
+  height: 2rem;
+  background: greenyellow;
+  text-align: center;
+  margin-left: 70vw;
+}
+
 
 #create-tab, .tab {
   color: white;
