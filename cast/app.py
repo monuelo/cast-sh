@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import argparse
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from flask_socketio import SocketIO
+from .logger import Logging
 import pty
 import os
 import subprocess
@@ -16,6 +17,7 @@ app.config["fd"] = None
 app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
+app.config["log_file"] = r'cast/log_data/'
 socketio = SocketIO(app)
 
 
@@ -50,25 +52,6 @@ def read_and_forward_pty_output(session_id):
 @app.route("/")
 def index():
     return render_template("index.html")
-
-
-@socketio.on("client-input", namespace="/cast")
-def client_input(data):
-
-    # Update current session
-    app.config["current_session"] = data["session_id"]
-    print("input: {}".format(app.config["sessions"]))
-
-    if data["session_id"] in app.config["sessions"]:
-        file_desc = app.config["sessions"][data["session_id"]]["fd"]
-
-        if file_desc:
-            if data["input"] == '':
-                # When switching sessions, send a key to update terminal content
-                os.write(file_desc, b'\x00')
-            else:
-                os.write(file_desc, data["input"].encode())
-
 
 @socketio.on("new-session", namespace="/cast")
 def new_session(data=None):
@@ -148,6 +131,46 @@ def connect(data=None):
 
         print("connect: task started")
 
+
+@socketio.on("client-input", namespace="/cast")
+def client_input(data):
+
+    # Update current session
+    app.config["current_session"] = data["session_id"]
+    print("input: {}".format(app.config["sessions"]))
+
+    #Logger Functions from the logger file
+    log = Logging(app.config["current_session"])
+    log.write_log(data['input'])
+
+    if data["session_id"] in app.config["sessions"]:
+        file_desc = app.config["sessions"][data["session_id"]]["fd"]
+
+        if file_desc:
+            if data["input"] == '':
+                # When switching sessions, send a key to update terminal content
+                os.write(file_desc, b'\x00')
+            else:
+                os.write(file_desc, data["input"].encode())
+
+#####################
+# UNDER DEVELOPMENT #
+#####################
+
+"""
+This is the route handler for DOWNLOADING the log file. Not to be used right now
+
+@socketio.on("download", namespace="/cast")
+def download(data):
+    print(data)
+    try:
+        session_id = data['session_id']
+        print(session_id)
+        return send_from_directory(app.config["log_file"],filename=session_id+'.txt',as_attachment=True)
+    except Exception as e:
+        print(e)
+        return abort(404)
+"""
 
 def main():
     parser = argparse.ArgumentParser(
