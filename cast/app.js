@@ -37,13 +37,13 @@ const termSetup = (term, ssid, newCurrentSession) => {
 
 const Cast = (ssid, tid) => {
 
-  term = new Terminal({
+  let term = new Terminal({
     cursorBlink: true,
     macOptionIsMeta: true,
     scrollback: true
   });
 
-  newCurrentSession = { ssid: ssid, term: term, tid: tid };
+  let newCurrentSession = { ssid: ssid, term: term, tid: tid };
   termSetup(term, ssid, newCurrentSession);
   return newCurrentSession;
 }

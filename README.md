@@ -1,5 +1,18 @@
 # cast.sh
 
+<p align="left">
+    <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/hericlesme/cast-sh" /></a>
+    <a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/hericlesme/cast-sh" /></a>
+    <a href="https://github.com/hericlesme/cast-sh/blob/master/LICENSE" alt="Activity">
+        <img src="https://img.shields.io/github/license/hericlesme/cast-sh" /></a>
+<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=shield"/></a>
+    <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/alerts/">
+        <img src="https://img.shields.io/lgtm/alerts/g/hericlesme/cast-sh"
+            alt="Total alerts"/></a>
+</p>
+
 An adorable instance of your terminal in your browser
 
 
@@ -27,3 +40,7 @@ optional arguments:
   --cmd-args CMD_ARGS       arguments to pass to command (i.e. --cmd-args='arg1
                             arg2 --flag') (default: )
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_large)

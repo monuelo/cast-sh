@@ -111,6 +111,8 @@ def connect(data=None):
     else:
         # parent: print info, stream child input/output to socketio
         # Store sessions by ssid
+        print("opening a new session")
+        app.config["sessions"] = {}
         app.config["sessions"][session_id] = {}
         app.config["sessions"][session_id]["fd"] = fd
         app.config["sessions"][session_id]["child_pid"] = child_pid
