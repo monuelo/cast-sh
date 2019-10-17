@@ -1,6 +1,9 @@
 # cast.sh
 
 <p align="left">
+    <a href="https://travis-ci.org/hericlesme/cast-sh">
+        <img src="https://travis-ci.org/hericlesme/cast-sh.svg?branch=master"
+            alt="Build Status"/></a>
     <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/hericlesme/cast-sh" /></a>
     <a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
