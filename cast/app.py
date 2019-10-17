@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory,url_for,redirect
 from flask_socketio import SocketIO
 from .logger import Logging
 import pty
@@ -17,7 +17,7 @@ app.config["fd"] = None
 app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
-app.config["log_file"] = r'cast/log_data/'
+app.config["log_file"] = r'log_data/'
 socketio = SocketIO(app)
 
 
@@ -153,24 +153,15 @@ def client_input(data):
             else:
                 os.write(file_desc, data["input"].encode())
 
-#####################
-# UNDER DEVELOPMENT #
-#####################
+# This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
 
-"""
-This is the route handler for DOWNLOADING the log file. Not to be used right now
-
-@socketio.on("download", namespace="/cast")
-def download(data):
-    print(data)
+@app.route("/download/<string:file_path>")
+def download(file_path):
     try:
-        session_id = data['session_id']
-        print(session_id)
-        return send_from_directory(app.config["log_file"],filename=session_id+'.txt',as_attachment=True)
+        return send_from_directory(app.config["log_file"],filename=file_path,as_attachment=True)
     except Exception as e:
-        print(e)
-        return abort(404)
-"""
+        return redirect(url_for('index'))
+
 
 def main():
     parser = argparse.ArgumentParser(

@@ -86,20 +86,9 @@ const openSession = (tid) => {
 
     // To mark current tab as the current session on WebSocket server
     socket.emit("client-input", { input: '', session_id: currentSsid });
-
-    //Calls the function below
-    // document.getElementById("log").onclick = function() {downloadLog()};
   }
 }
 
-/*
-This function is UNDER DEVELOPMENT
-
-function downloadLog() {
-  //function to send socket message to download log. Still under work
-  socket.emit("download", {session_id:currentSsid});
-}
-*/
 
 
 /*** HTML Elements ***/
@@ -163,6 +152,10 @@ const getTabBySSID = (ssid) => tabs.find(t => t.ssid == ssid);
 
 currentSsid = createTab();
 
+function downloadLog(ssid=currentSsid){
+  console.log(ssid);
+  document.getElementById("downloadLog").href = "/download/"+ssid+".txt";
+}
 
 /*** Socket Settings ***/
 
