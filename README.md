@@ -16,16 +16,16 @@
             alt="Total alerts"/></a>
 </p>
 
-An adorable instance of your terminal in your browser
+An instance of your terminal in your browser
 
 
-## Prerequisites
-You need to install the dependencies before run the application
+## Installation & Prerequisites
+Use the package manager pip to install the dependencies before run the application
 ```
 pip3 install -r requirements.txt
 ```
 
-## Run
+## Usage
 To start the terminal cast application, run:
 ```
 python3 -m cast
@@ -44,6 +44,8 @@ optional arguments:
                             arg2 --flag') (default: )
 ```
 
+## Contributing
+![Contribute](/art/contribute.svg)
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_large)
