@@ -1,12 +1,14 @@
 # cast.sh
 
-<p align="left">
+<p align="center">
     <a href="https://travis-ci.org/hericlesme/cast-sh">
         <img src="https://travis-ci.org/hericlesme/cast-sh.svg?branch=master"
             alt="Build Status"/></a>
     <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/hericlesme/cast-sh" /></a>
-    <a href="https://github.com/hericlesme/cast-sh/blob/master/LICENSE" alt="Activity">
+        <a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/hericlesme/cast-sh" /></a>
+    <a href="https://github.com/hericlesme/cast-sh/blob/master/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/hericlesme/cast-sh" /></a>
 <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=shield"/></a>
     <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/alerts/">
