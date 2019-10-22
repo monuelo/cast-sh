@@ -70,14 +70,22 @@ html {
 }
 
 .log {
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   width: 5rem;
-  height: 2rem;
+  height: 1.75rem;
   background: greenyellow;
   text-align: center;
-  margin-left: 70vw;
+  margin-left: 2rem;
 }
 
+.close {
+  padding: 10px;
+  margin-right:5px;
+  height: inherit;
+  background-image: linear-gradient(rgb(112, 11, 0),rgb(211, 32, 0));
+  border-radius: 0.2rem;
+  color: white;
+}
 
 #create-tab, .tab {
   color: white;
@@ -90,6 +98,14 @@ html {
 #create-tab:hover {
   background: #333333;
   cursor: pointer;
+}
+
+.closed-tab {
+  color:white;
+  background-color: linear-gradient(rgb(112, 11, 0),rgb(211, 32, 0));
+  padding: 10px;
+  transition: 0.2s;
+  margin: 0 1px;
 }
 
 /* .tab:active {
