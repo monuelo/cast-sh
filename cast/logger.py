@@ -9,6 +9,7 @@ class Logging:
     """
 
     def __init__(self,session_id):
+        self.folder = r'cast/log_data'
         self.file_location = r'cast/log_data/' + str(session_id)+ r'.txt'
 
     def write_log(self,data_value):
@@ -25,3 +26,10 @@ class Logging:
                 seconds = time.time()
                 local_time = time.ctime(seconds)
                 f.write(f"  [{local_time}]\n")
+
+    def make_log_folder(self):
+        if not os.path.exists(self.folder):
+            os.mkdir(self.folder)
+            return "Made Folder"
+        else:
+            return "Folder already exists"

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from flask import Flask, render_template, request, send_from_directory,url_for,redirect
-from flask_socketio import SocketIO
+import flask_socketio
 from .logger import Logging
 import pty
 import os
@@ -18,14 +18,7 @@ app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
 app.config["log_file"] = r'log_data/'
-socketio = SocketIO(app)
-
-
-def setup_default_session(session_id):
-    app.config["current_session"] = session_id
-    app.config["sessions"][session_id] = {"fd": None, "child_pid": None}
-
-    return app.config["sessions"][session_id]
+socketio = flask_socketio.SocketIO(app)
 
 
 def read_and_forward_pty_output(session_id):
@@ -51,17 +44,19 @@ def read_and_forward_pty_output(session_id):
 
 @app.route("/")
 def index():
+    log = Logging(app.config["current_session"])
+    log.make_log_folder()
     return render_template("index.html")
 
 @socketio.on("new-session", namespace="/cast")
 def new_session(data=None):
     """To register session on WebSocket server
-    Similar to 'connect()'
+    Similar to 'connect()', used for adding a new tab session
     """
     session_id = ''
     if data is not None:
         session_id = data["session_id"]
-    print("new-session: {}\n\n".format(session_id))
+    print(f"new-session: {session_id}\n\n")
 
     if session_id in app.config["sessions"]:
         return
@@ -97,7 +92,7 @@ def connect(data=None):
         'session_id') is None else ''
     if session_id == '' and data is not None:
         session_id = data["session_id"]
-        print("connect: {}\n\n".format(session_id))
+        print(f"connect: {session_id}\n\n")
 
     # Create new session only when id not in records
     if session_id in app.config["sessions"]:
@@ -131,17 +126,22 @@ def connect(data=None):
 
         print("connect: task started")
 
+@socketio.on("disconnect", namespace="/cast")
+def disconnect_session(data):
+    print("notice this bro" + data['session_id'])
+    flask_socketio.disconnect(data["session_id"])
+    return "heyyo"
 
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):
 
     # Update current session
     app.config["current_session"] = data["session_id"]
-    print("input: {}".format(app.config["sessions"]))
+    print(f"input: {app.config['sessions']}")
 
     #Logger Functions from the logger file
     log = Logging(app.config["current_session"])
-    log.write_log(data['input'])
+    
 
     if data["session_id"] in app.config["sessions"]:
         file_desc = app.config["sessions"][data["session_id"]]["fd"]
@@ -151,6 +151,7 @@ def client_input(data):
                 # When switching sessions, send a key to update terminal content
                 os.write(file_desc, b'\x00')
             else:
+                log.write_log(data['input'])
                 os.write(file_desc, data["input"].encode())
 
 # This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
