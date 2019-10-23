@@ -76,8 +76,8 @@ def new_session(data=None):
 
         print("new-session: child pid is", child_pid)
         print(
-            f"new-session: starting background task with command `{cmd}` to continously read "
-            "and forward pty output to client"
+            "new-session: starting background task with command `{}` to continously read "
+            "and forward pty output to client".format(cmd)
         )
 
         socketio.start_background_task(
@@ -116,8 +116,8 @@ def connect(data=None):
 
         print("connect: child pid is", child_pid)
         print(
-            f"connect: starting background task with command `{cmd}` to continously read "
-            "and forward pty output to client"
+            "connect: starting background task with command `{}` to continously read "
+            "and forward pty output to client".format(cmd)
         )
 
         # Output terminal message corresponding to ssid
@@ -190,7 +190,7 @@ def main():
     if args.version:
         print(__version__)
         exit(0)
-    print(f"serving on http://0.0.0.0:{args.port}")
+    print("serving on http://0.0.0.0:{}".format(args.port))
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
 
