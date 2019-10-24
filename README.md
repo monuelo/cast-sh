@@ -49,5 +49,7 @@ optional arguments:
 ## Contributing
 ![Contribute](/art/contribute.svg)
 
+[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/0)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/0)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/1)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/1)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/2)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/2)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/3)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/3)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/4)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/4)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/5)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/5)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/6)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/6)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/7)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/7)
+
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_large)
