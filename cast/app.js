@@ -51,7 +51,7 @@ const Cast = (ssid, tid) => {
 }
 
 const focusStyle = (tid) => {
-  let i, tabcontent, tablinks,logger;
+  let i, tabcontent, tablinks, logger;
   let tab = getTabByTID(tid);
   logger = document.getElementById("downloadLog");
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -68,16 +68,16 @@ const focusStyle = (tid) => {
   }
 
   let tablink = document.getElementById(tid);
-  if(closedTabs.includes(tid)){
+  if (closedTabs.includes(tid)) {
     tablink.style.backgroundColor = "red";
     tablink.style.color = "white";
-    logger.style.display="block";
+    logger.style.display = "block";
     document.getElementById(tab.ssid).style.display = "none";
   }
-  else{
+  else {
     tablink.style.backgroundColor = "greenyellow";
     tablink.style.color = "black";
-    logger.style.display="none";
+    logger.style.display = "none";
     document.getElementById(tab.ssid).style.display = "block";
   }
   console.log("Session ID:  " + getTabByTID(tid).ssid);
@@ -96,20 +96,27 @@ const openSession = (tid) => {
     socket.emit("new-session", { session_id: currentSsid });
 
     // To mark current tab as the current session on WebSocket server
-    socket.emit("client-input", { input: '', session_id: currentSsid })   
+    socket.emit("client-input", { input: '', session_id: currentSsid })
   }
 }
 
-const closeSession = (tid) =>{
-  if(closedTabs.includes(tid)){
+const closeSession = (tid) => {
+  if (closedTabs.includes(tid)) {
     //pass
   }
-  else{
-    console.log("Closing the tab "+tid);
+  else {
+    console.log("Closing the tab " + tid);
+ 
+    let tablink = document.getElementById(tid);
+    tablink.innerText = "[closed] " + tablink.innerText;
+    
+    let close = tablink.nextElementSibling;
+    close.parentElement.removeChild(close);
+
     closedTabs.push(tid);
     focusStyle(tid);
   }
-  
+
 }
 
 
@@ -119,7 +126,7 @@ const closeSession = (tid) =>{
 const newTab = (ssid) => {
   let tab = document.createElement("div");
   tab.className = "tab";
-  tab.innerText = "tab " + (sessions.length+1);
+  tab.innerText = "tab " + (sessions.length + 1);
   tab.id = TID;
 
   tabs.push({ tid: TID, ssid: ssid, session: null });
@@ -132,7 +139,7 @@ const closeButton = (ssid) => {
   close_button.innerText = "X";
   close_button.id = TID;
 
-  close.push({tid:TID,ssid:ssid});
+  close.push({ tid: TID, ssid: ssid });
   return close_button
 }
 
@@ -146,16 +153,16 @@ const appendTab = (ssid) => {
     console.log(e.target.id);
     openSession(e.target.id);
     currentSsid = ssid;
-    })
-  
-  close.addEventListener('click',(e) =>{
+  })
+
+  close.addEventListener('click', (e) => {
     console.log(e.target.id);
     closeSession(e.target.id);
     currentSsid = ssid;
   })
 
   header.insertBefore(tab, element);
-  header.insertBefore(close,element);
+  header.insertBefore(close, element);
 }
 
 const appendContent = (ssid) => {
@@ -193,9 +200,9 @@ const getTabBySSID = (ssid) => tabs.find(t => t.ssid == ssid);
 
 currentSsid = createTab();
 
-function downloadLog(ssid=currentSsid){
+function downloadLog(ssid = currentSsid) {
   console.log(ssid);
-  document.getElementById("downloadLog").href = "/download/"+ssid+".txt";
+  document.getElementById("downloadLog").href = "/download/" + ssid + ".txt";
 }
 
 /*** Socket Settings ***/

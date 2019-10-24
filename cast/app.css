@@ -77,15 +77,20 @@ html {
   text-align: center;
   margin-left: 2rem;
   display: none;
-  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+a {
+  color: initial !important;
+  outline: none;
+  text-decoration: none;
 }
 
 .close {
   padding: 10px;
   margin-right:5px;
   height: inherit;
-  background-image: linear-gradient(rgb(112, 11, 0),rgb(211, 32, 0));
-  border-radius: 0.2rem;
+  background-color: #1f1f1f;
   color: white;
 }
 
