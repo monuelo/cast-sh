@@ -63,8 +63,7 @@ const focusStyle = (tid) => {
   tablinks = document.getElementsByClassName("tab");
 
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
-    tablinks[i].style.color = "white";
+    tablinks[i].classList.remove('active');
   }
 
   let tablink = document.getElementById(tid);
@@ -75,8 +74,7 @@ const focusStyle = (tid) => {
     document.getElementById(tab.ssid).style.display = "none";
   }
   else {
-    tablink.style.backgroundColor = "greenyellow";
-    tablink.style.color = "black";
+    tablink.classList.add('active');
     logger.style.display = "none";
     document.getElementById(tab.ssid).style.display = "block";
   }
@@ -106,10 +104,10 @@ const closeSession = (tid) => {
   }
   else {
     console.log("Closing the tab " + tid);
- 
+
     let tablink = document.getElementById(tid);
     tablink.innerText = "[closed] " + tablink.innerText;
-    
+    tablink.contentEditable = false;
     let close = tablink.nextElementSibling;
     close.parentElement.removeChild(close);
 
@@ -126,8 +124,28 @@ const closeSession = (tid) => {
 const newTab = (ssid) => {
   let tab = document.createElement("div");
   tab.className = "tab";
+  tab.contentEditable = true;
   tab.innerText = "tab " + (sessions.length + 1);
   tab.id = TID;
+  tab.onkeydown = function(e) {
+    console.log('keydown');
+    if (!e) {
+      e = window.event;
+    }
+    var keyCode = e.which || e.keyCode,
+      target = e.target || e.srcElement;
+
+    if (keyCode === 13 && !e.shiftKey) {
+      console.log('Just enter');
+      if (e.preventDefault) {
+        e.preventDefault();
+      } else {
+        e.returnValue = false;
+      }
+      target.blur();
+    }
+  }
+
 
   tabs.push({ tid: TID, ssid: ssid, session: null });
   return tab;

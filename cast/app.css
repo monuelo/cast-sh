@@ -115,6 +115,13 @@ a {
   margin: 0 1px;
 }
 
-/* .tab:active {
-  background-color: greenyellow;
-} */
+
+.tab.active {
+  background: greenyellow;
+  color:black;
+}
+
+.tab:focus {
+  background:goldenrod;
+  outline: greenyellow;
+}
