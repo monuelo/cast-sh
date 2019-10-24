@@ -20,9 +20,6 @@
     <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/context:javascript"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/hericlesme/cast-sh.svg?logo=lgtm&logoWidth=18"/></a>
 </p>
 
-An instance of your terminal in your browser
-
-
 ## Installation & Prerequisites
 Use the package manager pip to install the dependencies before run the application
 ```
