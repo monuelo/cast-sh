@@ -25,8 +25,9 @@ class Logging:
             elif data_value_checker == b'\r':
                 seconds = time.time()
                 local_time = time.ctime(seconds)
-                f.write(f"  [{local_time}]\n")
-
+                f.write("  [{}]\n".format(local_time))
+                #f.write(f"   [{local_time}]\n") # For upgrade to Python >3.5
+                
     def make_log_folder(self):
         if not os.path.exists(self.folder):
             os.mkdir(self.folder)

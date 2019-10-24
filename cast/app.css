@@ -71,11 +71,13 @@ html {
 
 .log {
   padding-top: 0.5rem;
-  width: 5rem;
+  width: 7rem;
   height: 1.75rem;
   background: greenyellow;
   text-align: center;
   margin-left: 2rem;
+  display: none;
+  border-radius: 0.25rem;
 }
 
 .close {
