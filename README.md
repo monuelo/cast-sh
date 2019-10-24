@@ -6,7 +6,10 @@
             alt="Build Status"/></a>
     <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/hericlesme/cast-sh" /></a>
-        <a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
+    <a href="https://www.python.org/downloads/">
+        <img src="https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue"
+            alt="Python 3.5-3.7"/></a>
+<a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/m/hericlesme/cast-sh" /></a>
     <a href="https://github.com/hericlesme/cast-sh/blob/master/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/hericlesme/cast-sh" /></a>
