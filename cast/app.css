@@ -69,6 +69,30 @@ html {
   background-color: #ff8383;
 }
 
+.log {
+  padding-top: 0.5rem;
+  width: 7rem;
+  height: 1.75rem;
+  background: greenyellow;
+  text-align: center;
+  margin-left: 2rem;
+  display: none;
+  cursor: pointer;
+}
+
+a {
+  color: initial !important;
+  outline: none;
+  text-decoration: none;
+}
+
+.close {
+  padding: 10px;
+  margin-right:5px;
+  height: inherit;
+  background-color: #1f1f1f;
+  color: white;
+}
 
 #create-tab, .tab {
   color: white;
@@ -83,6 +107,21 @@ html {
   cursor: pointer;
 }
 
-/* .tab:active {
-  background-color: greenyellow;
-} */
+.closed-tab {
+  color:white;
+  background-color: linear-gradient(rgb(112, 11, 0),rgb(211, 32, 0));
+  padding: 10px;
+  transition: 0.2s;
+  margin: 0 1px;
+}
+
+
+.tab.active {
+  background: greenyellow;
+  color:black;
+}
+
+.tab:focus {
+  background:goldenrod;
+  outline: greenyellow;
+}
