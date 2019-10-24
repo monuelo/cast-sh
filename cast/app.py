@@ -24,6 +24,7 @@ socketio = flask_socketio.SocketIO(app)
 def read_and_forward_pty_output(session_id):
     max_read_bytes = 1024 * 20
     app.config["current_session"] = session_id
+    
 
     while True:
 
@@ -56,7 +57,8 @@ def new_session(data=None):
     session_id = ''
     if data is not None:
         session_id = data["session_id"]
-    print(f"new-session: {session_id}\n\n")
+    print("new-session: {}\n".format(session_id))
+    #print(f"new-session: {session_id}\n") # For upgrade to Python >3.5
 
     if session_id in app.config["sessions"]:
         return
@@ -79,6 +81,12 @@ def new_session(data=None):
             "new-session: starting background task with command `{}` to continously read "
             "and forward pty output to client".format(cmd)
         )
+        """
+        print(
+            f"new-session: starting background task with command `{cmd}` to continously read "
+            "and forward pty output to client"
+        )
+        """
 
         socketio.start_background_task(
             target=read_and_forward_pty_output, session_id=session_id)
@@ -92,7 +100,7 @@ def connect(data=None):
         'session_id') is None else ''
     if session_id == '' and data is not None:
         session_id = data["session_id"]
-        print(f"connect: {session_id}\n\n")
+        print("connect: {}\n".format(session_id))
 
     # Create new session only when id not in records
     if session_id in app.config["sessions"]:
@@ -119,6 +127,12 @@ def connect(data=None):
             "connect: starting background task with command `{}` to continously read "
             "and forward pty output to client".format(cmd)
         )
+        """
+        print(
+            f"new-session: starting background task with command `{cmd}` to continously read "
+            "and forward pty output to client"
+        )
+        """
 
         # Output terminal message corresponding to ssid
         socketio.start_background_task(
@@ -126,22 +140,13 @@ def connect(data=None):
 
         print("connect: task started")
 
-@socketio.on("disconnect", namespace="/cast")
-def disconnect_session(data):
-    print("notice this bro" + data['session_id'])
-    flask_socketio.disconnect(data["session_id"])
-    return "heyyo"
-
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):
 
     # Update current session
     app.config["current_session"] = data["session_id"]
-    print(f"input: {app.config['sessions']}")
-
-    #Logger Functions from the logger file
+    print("input: {}".format(app.config['sessions']))
     log = Logging(app.config["current_session"])
-    
 
     if data["session_id"] in app.config["sessions"]:
         file_desc = app.config["sessions"][data["session_id"]]["fd"]
