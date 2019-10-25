@@ -45,6 +45,9 @@ optional arguments:
                             arg2 --flag') (default: )
 ```
 
+## Screenshots
+![screenshots](/art/screenshots.png)
+
 ## Contributing
 ![Contribute](/art/contribute.svg)
 [![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/0)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/0)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/1)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/1)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/2)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/2)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/3)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/3)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/4)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/4)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/5)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/5)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/6)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/6)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/7)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/7)
