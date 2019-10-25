@@ -220,7 +220,7 @@ currentSsid = createTab();
 
 function downloadLog(ssid = currentSsid) {
   console.log(ssid);
-  document.getElementById("downloadLog").href = "/download/" + ssid + ".txt";
+  document.getElementById("downloadLog").href = "/download/" + ssid + ".log";
 }
 
 /*** Socket Settings ***/
