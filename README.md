@@ -31,15 +31,6 @@ To start the terminal cast application, run:
 ```
 python3 -m cast
 ```
-#### Docker
-Build image
-```
-docker build -t cast .
-```
-Run built image
-```
-docker run --name cast.sh-container -p 5000:5000/tcp -i -t cast
-```
 #### Arguments
 ```
 optional arguments:
@@ -52,7 +43,15 @@ optional arguments:
   --cmd-args CMD_ARGS       arguments to pass to command (i.e. --cmd-args='arg1
                             arg2 --flag') (default: )
 ```
-
+#### Docker
+Build image
+```
+docker build -t cast .
+```
+Run built image
+```
+docker run --name cast.sh-container -p 5000:5000/tcp -i -t cast
+```
 ## Screenshots
 ![screenshots](/art/screenshots.png)
 
