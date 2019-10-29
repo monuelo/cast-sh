@@ -1,23 +1,49 @@
+dist: bionic
+
+addons:
+  chrome: stable
+
 language: python
+
+cache: pip
 
 python:
   - 3.5
   - 3.6
   - 3.7
 
+services:
+  - docker
+
 before_install:
-  - python --version
+  - sudo apt-get update
+  # Get stable version of chrome driver
+  - wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
+  - sudo mv chromedriver /usr/bin/chromedriver
+  - sudo chown root:root /usr/bin/chromedriver
+  - sudo chmod +x /usr/bin/chromedriver
+  # Install test dependencies
   - pip install -U pip
   - pip install -U flake8
+  - pip install -U pytest
+  - pip install -U requests
+  - pip install -U selenium
+  # Build app as docker container
+  - docker build -t cast .
+  - docker run -d --name cast.sh-container -p 5000:5000/tcp -i -t cast
 
-install:
-  - pip install -r requirements.txt
+before_script:
+  # include ChromeDriver in PATH
+  - export PATH=$PATH:/usr/bin/chromedriver
 
 script:
-  # stop the build if there are Python syntax errors or undefined names
+  # Stop the build if there are Python syntax errors or undefined names
   - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-  # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+  # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
   - flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+  # Run unit tests
+  - pytest --verbose
 
 notifications:
   on_success: change
