@@ -92,6 +92,7 @@ a {
   height: inherit;
   background-color: #1f1f1f;
   color: white;
+  cursor: pointer;
 }
 
 #create-tab, .tab {
@@ -115,13 +116,17 @@ a {
   margin: 0 1px;
 }
 
+.tab:hover {
+  cursor: pointer;
+}
 
 .tab.active {
   background: greenyellow;
   color:black;
 }
 
-.tab:focus {
+.tab.active:focus {
   background:goldenrod;
   outline: greenyellow;
+  cursor: text;
 }
