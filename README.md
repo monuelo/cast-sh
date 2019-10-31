@@ -1,6 +1,6 @@
 ![cast-sh](art/cast-sh-header.png)
 <p align="center">
-    <a href="https://travis-ci.org/hericlesme/cast-sh">
+    <a href="https://travis-ci.org/pod-cast/cast-sh">
         <img src="https://travis-ci.org/hericlesme/cast-sh.svg?branch=master"
             alt="Build Status"/></a>
     <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
