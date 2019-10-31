@@ -12,7 +12,7 @@
         <img src="https://img.shields.io/github/commit-activity/m/pod-cast/cast-sh" /></a>
     <a href="https://github.com/pod-cast/cast-sh/blob/master/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/pod-cast/cast-sh" /></a>
-<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=shield"/></a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=shield"/></a>
     <a href="https://lgtm.com/projects/g/pod-cast/cast-sh/alerts/">
         <img src="https://img.shields.io/lgtm/alerts/g/pod-cast/cast-sh"
             alt="Total alerts"/></a>
@@ -60,4 +60,4 @@ docker run --name cast.sh-container -p 5000:5000/tcp -i -t cast
 [![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/0)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/0)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/1)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/1)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/2)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/2)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/3)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/3)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/4)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/4)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/5)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/5)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/6)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/6)[![](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/images/7)](https://sourcerer.io/fame/hericlesme/hericlesme/cast-sh/links/7)
 
 ## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_large)
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_large" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=large"/></a>
