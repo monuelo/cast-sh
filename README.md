@@ -1,23 +1,23 @@
 ![cast-sh](art/cast-sh-header.png)
 <p align="center">
     <a href="https://travis-ci.org/pod-cast/cast-sh">
-        <img src="https://travis-ci.org/hericlesme/cast-sh.svg?branch=master"
+        <img src="https://travis-ci.org/pod-cast/cast-sh.svg?branch=master"
             alt="Build Status"/></a>
-    <a href="https://github.com/hericlesme/cast-sh/graphs/contributors" alt="Contributors">
-        <img src="https://img.shields.io/github/contributors/hericlesme/cast-sh" /></a>
+    <a href="https://github.com/pod-cast/cast-sh/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/pod-cast/cast-sh" /></a>
     <a href="https://www.python.org/downloads/">
         <img src="https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue"
             alt="Python 3.5-3.7"/></a>
-<a href="https://github.com/hericlesme/cast-sh/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/hericlesme/cast-sh" /></a>
-    <a href="https://github.com/hericlesme/cast-sh/blob/master/LICENSE" alt="License">
-        <img src="https://img.shields.io/github/license/hericlesme/cast-sh" /></a>
+<a href="https://github.com/pod-cast/cast-sh/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/pod-cast/cast-sh" /></a>
+    <a href="https://github.com/pod-cast/cast-sh/blob/master/LICENSE" alt="License">
+        <img src="https://img.shields.io/github/license/pod-cast/cast-sh" /></a>
 <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhericlesme%2Fcast-sh.svg?type=shield"/></a>
-    <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/alerts/">
-        <img src="https://img.shields.io/lgtm/alerts/g/hericlesme/cast-sh"
+    <a href="https://lgtm.com/projects/g/pod-cast/cast-sh/alerts/">
+        <img src="https://img.shields.io/lgtm/alerts/g/pod-cast/cast-sh"
             alt="Total alerts"/></a>
-    <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/context:python"><img alt="Language grade: Python" src="https://img.shields.io/lgtm/grade/python/g/hericlesme/cast-sh.svg?logo=lgtm&logoWidth=18"/></a>
-    <a href="https://lgtm.com/projects/g/hericlesme/cast-sh/context:javascript"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/hericlesme/cast-sh.svg?logo=lgtm&logoWidth=18"/></a>
+    <a href="https://lgtm.com/projects/g/pod-cast/cast-sh/context:python"><img alt="Language grade: Python" src="https://img.shields.io/lgtm/grade/python/g/pod-cast/cast-sh.svg?logo=lgtm&logoWidth=18"/></a>
+    <a href="https://lgtm.com/projects/g/pod-cast/cast-sh/context:javascript"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/pod-cast/cast-sh.svg?logo=lgtm&logoWidth=18"/></a>
 </p>
 
 ## Installation & Prerequisites
