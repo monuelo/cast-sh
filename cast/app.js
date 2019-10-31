@@ -4,6 +4,7 @@ var tabs = []
 var close = []
 var closedTabs = []
 var sessions = [];
+var clickCount = 0;
 var TID = 0;
 const MAX_LINES = 9999999;
 let socket;
@@ -124,10 +125,17 @@ const closeSession = (tid) => {
 const newTab = (ssid) => {
   let tab = document.createElement("div");
   tab.className = "tab";
-  tab.contentEditable = true;
   tab.innerText = "tab " + (sessions.length + 1);
   tab.id = TID;
-  tab.onkeydown = function(e) {
+  tabs.push({ tid: TID, ssid: ssid, session: null });
+  return tab;
+}
+
+const editTab = (tid) => {
+  let tablink = document.getElementById(tid);
+  tablink.contentEditable = true;
+  tablink.focus();
+  tablink.onkeydown = function(e) {
     console.log('keydown');
     if (!e) {
       e = window.event;
@@ -143,12 +151,9 @@ const newTab = (ssid) => {
         e.returnValue = false;
       }
       target.blur();
+      tablink.contentEditable = false;
     }
   }
-
-
-  tabs.push({ tid: TID, ssid: ssid, session: null });
-  return tab;
 }
 
 const closeButton = (ssid) => {
@@ -167,11 +172,27 @@ const appendTab = (ssid) => {
 
   let tab = newTab(ssid);
   let close = closeButton(ssid);
+
   tab.addEventListener('click', (e) => {
-    console.log(e.target.id);
-    openSession(e.target.id);
+    clickCount++;
     currentSsid = ssid;
-  })
+    if (clickCount === 1) {
+        singleClickTimer = setTimeout(function() {
+            clickCount = 0;
+            openSession(e.target.id);
+        }, 150);
+    } else if (clickCount === 2) {
+        clearTimeout(singleClickTimer);
+        clickCount = 0;
+        if(closedTabs.includes(e.target.id)){
+          //pass
+        } else {
+          focusStyle(e.target.id);
+          editTab(e.target.id);
+        }
+    }
+}, false)
+  
 
   close.addEventListener('click', (e) => {
     console.log(e.target.id);
