@@ -1,4 +1,5 @@
 const $ = document.querySelector.bind(document);
+var notyf = new Notyf(); // Used for toast notifications
 var currentSsid = '';
 var tabs = []
 var close = []
@@ -240,8 +241,31 @@ const getTabBySSID = (ssid) => tabs.find(t => t.ssid == ssid);
 currentSsid = createTab();
 
 function downloadLog(ssid = currentSsid) {
-  console.log(ssid);
-  document.getElementById("downloadLog").href = "/download/" + ssid + ".log";
+  console.log("Downloading log for " + ssid);
+  fetch('/download/' + ssid + '.log')
+    .then(function (response) {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      response.blob().then(function (logBlob) {
+        var blob = new Blob([logBlob], {
+          type: 'application/octet-stream'
+        });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = ssid + '.log';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    })
+    .catch(function (error) {
+      console.log('Server error response: \n', error);
+      notyf.error({
+        message: 'No log available for download.',
+        duration: 6000,
+      });
+    });
 }
 
 /*** Socket Settings ***/
