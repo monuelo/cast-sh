@@ -61,3 +61,6 @@ docker run --name cast.sh-container -p 5000:5000/tcp -i -t cast
 
 ## License
 <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_large" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=large"/></a>
+
+## Code of Conduct
+Everyone interacting with the [cast-sh](https://github.com/pod-cast/cast-sh) codebase and issue tracker is expected to follow our [Code of Conduct](https://github.com/pod-cast/cast-sh/blob/dev/CODE_OF_CONDUCT.md).
