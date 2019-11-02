@@ -1,36 +1,39 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <title>cast.sh</title>
-  <link rel="stylesheet" href="app.css">
-  <link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css" />
-  <link rel="shortcut icon" type="image/png"
-    href="https://cdn1.iconfinder.com/data/icons/single-width-stroke/24/terminal-128.png" />
+    <meta charset="utf-8">
+    <title>cast.sh</title>
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/xterm@3.6.0/dist/xterm.css"/>
+    <link rel="shortcut icon" type="image/png"
+          href="https://cdn1.iconfinder.com/data/icons/single-width-stroke/24/terminal-128.png"/>
 </head>
 
 <body>
-  <div class="header">
+<div class="header">
     <span class="title">cast.sh</span>&nbsp;&nbsp;&nbsp;
     <div id="create-tab" onclick={createTab()}>+</div>
-    
+
     <!-- Under Development -->
     <a id="downloadLog" class="log" onclick="downloadLog()">log</a>
 
     <div class="status">
-      <span>status: <span style="font-size: small;" id="status">connecting...</span></span>
+        <span>status: <span style="font-size: small;" id="status">connecting...</span></span>
     </div>
-  </div>
-  <div class="divider"></div>
-  <div id="term-container"></div>
-  </div>
-  <script src="https://unpkg.com/xterm@3.6.0/dist/xterm.js"></script>
-  <script src="https://unpkg.com/xterm@3.6.0/dist/addons/fit/fit.js"></script>
-  <script src="https://unpkg.com/xterm@3.6.0/dist/addons/webLinks/webLinks.js"></script>
-  <script src="https://unpkg.com/xterm@3.6.0/dist/addons/fullscreen/fullscreen.js"></script>
-  <script src="https://unpkg.com/xterm@3.6.0/dist/addons/search/search.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-  <script src="app.js"></script>
+</div>
+<div class="divider"></div>
+<div id="term-container"></div>
+</div>
+<script src="https://unpkg.com/xterm@3.6.0/dist/xterm.js"></script>
+<script src="https://unpkg.com/xterm@3.6.0/dist/addons/fit/fit.js"></script>
+<script src="https://unpkg.com/xterm@3.6.0/dist/addons/webLinks/webLinks.js"></script>
+<script src="https://unpkg.com/xterm@3.6.0/dist/addons/fullscreen/fullscreen.js"></script>
+<script src="https://unpkg.com/xterm@3.6.0/dist/addons/search/search.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script src="app.js"></script>
 </body>
 
 </html>
