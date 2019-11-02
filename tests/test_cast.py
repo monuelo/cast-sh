@@ -31,7 +31,7 @@ class BasicChromeTest:
 
 # Test for correct html
 class TestCast(BasicChromeTest):
-    def test_open_url(self):
+    def test_serving_app_html(self):
         self.driver.get("http://127.0.0.1:5000")
         sleep(2.5)  # TODO:Should be implicit wait
         assert self.driver.title == "cast.sh"
