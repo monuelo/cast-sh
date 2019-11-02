@@ -1,4 +1,5 @@
 const $ = document.querySelector.bind(document);
+var notyf = new Notyf(); // Used for toast notifications
 var currentSsid = '';
 var tabs = []
 var close = []
