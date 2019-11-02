@@ -1,9 +1,11 @@
 import pytest
-from selenium import webdriver
 from time import sleep
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
 
 # Fixture for Chrome
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 @pytest.fixture(scope="class")
@@ -46,5 +48,8 @@ class TestCast(BasicChromeTest):
         log_btn = self.driver.find_element(By.CLASS_NAME, 'log')
         log_btn.click()
         sleep(2)
-        no_log_avlble = self.driver.find_element(By.CLASS_NAME, 'notyf__message')
+        no_log_avlble = WebDriverWait(self.driver, 3).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "notyf__message"))
+        )
+        # no_log_avlble = self.driver.find_element(By.CLASS_NAME, 'notyf__message')
         assert no_log_avlble.text == "No log available for download"
