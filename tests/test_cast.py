@@ -52,4 +52,4 @@ class TestCast(BasicChromeTest):
         # )
         sleep(2)
         no_log_avlble = self.driver.find_element(By.CLASS_NAME, 'notyf__message')
-        assert no_log_avlble.text == "No log available for download"
+        assert no_log_avlble.text == "No log available for download."
