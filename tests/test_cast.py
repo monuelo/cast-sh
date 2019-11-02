@@ -47,8 +47,9 @@ class TestCast(BasicChromeTest):
         assert tabs[0].text == "[closed] tab 1"
         log_btn = self.driver.find_element(By.CLASS_NAME, 'log')
         log_btn.click()
-        no_log_avlble = WebDriverWait(self.driver, 3).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "notyf__message"))
-        )
-        # no_log_avlble = self.driver.find_element(By.CLASS_NAME, 'notyf__message')
+        # no_log_avlble = WebDriverWait(self.driver, 6).until(
+        #     EC.presence_of_element_located((By.CLASS_NAME, "notyf__message"))
+        # )
+        sleep(2)
+        no_log_avlble = self.driver.find_element(By.CLASS_NAME, 'notyf__message')
         assert no_log_avlble.text == "No log available for download"
