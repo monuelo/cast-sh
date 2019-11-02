@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import argparse
-from flask import Flask, render_template, request, send_from_directory,url_for,redirect
+from flask import Flask, render_template, request, send_from_directory, url_for, redirect, flash
 import flask_socketio
+from werkzeug.exceptions import BadRequest
+
 from .logger import Logging
 import pty
 import os
@@ -58,7 +60,6 @@ def new_session(data=None):
     if data is not None:
         session_id = data["session_id"]
     print("new-session: {}\n".format(session_id))
-    #print(f"new-session: {session_id}\n") # For upgrade to Python >3.5
 
     if session_id in app.config["sessions"]:
         return
@@ -164,9 +165,9 @@ def client_input(data):
 @app.route("/download/<string:file_path>")
 def download(file_path):
     try:
-        return send_from_directory(app.config["log_file"],filename=file_path,as_attachment=True)
-    except Exception as e:
-        return redirect(url_for('index'))
+        return send_from_directory(app.config["log_file"], filename=file_path, as_attachment=True)
+    except BadRequest as e:
+        return 404
 
 
 def main():
