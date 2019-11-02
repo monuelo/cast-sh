@@ -1,9 +1,11 @@
-.PHONY: install test
+.PHONY: install test run
 
-ROOT_PATH=$(shell pwd)
 
 install:
 	@pip install -r requirements.txt
 
 test:
 	@pytest --verbose
+
+run:
+	@python -m cast
