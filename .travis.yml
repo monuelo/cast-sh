@@ -23,12 +23,6 @@ before_install:
   - sudo mv chromedriver /usr/bin/chromedriver
   - sudo chown root:root /usr/bin/chromedriver
   - sudo chmod +x /usr/bin/chromedriver
-  # Install test dependencies
-  - pip install -U pip
-  - pip install -U flake8
-  - pip install -U pytest
-  - pip install -U requests
-  - pip install -U selenium
   # Build app as docker container
   - docker build -t cast .
   - docker run -d --name cast.sh-container -p 5000:5000/tcp -i -t cast

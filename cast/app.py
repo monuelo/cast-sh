@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from flask import Flask, render_template, request, send_from_directory, url_for, redirect, flash
+from flask import Flask, render_template, request, send_from_directory
 import flask_socketio
 from werkzeug.exceptions import BadRequest
 
@@ -26,7 +26,6 @@ socketio = flask_socketio.SocketIO(app)
 def read_and_forward_pty_output(session_id):
     max_read_bytes = 1024 * 20
     app.config["current_session"] = session_id
-    
 
     while True:
 
@@ -50,6 +49,7 @@ def index():
     log = Logging(app.config["current_session"])
     log.make_log_folder()
     return render_template("index.html")
+
 
 @socketio.on("new-session", namespace="/cast")
 def new_session(data=None):
@@ -141,9 +141,9 @@ def connect(data=None):
 
         print("connect: task started")
 
+
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):
-
     # Update current session
     app.config["current_session"] = data["session_id"]
     print("input: {}".format(app.config['sessions']))
@@ -159,6 +159,7 @@ def client_input(data):
             else:
                 log.write_log(data['input'])
                 os.write(file_desc, data["input"].encode())
+
 
 # This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
 
