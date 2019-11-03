@@ -23,6 +23,7 @@ before_install:
   - sudo mv chromedriver /usr/bin/chromedriver
   - sudo chown root:root /usr/bin/chromedriver
   - sudo chmod +x /usr/bin/chromedriver
+  # Install testing dependencies
   - pip install flake8 pytest pytest-cov selenium
   # Build app as docker container
   - docker build -t cast .
