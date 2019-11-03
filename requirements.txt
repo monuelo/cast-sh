@@ -4,6 +4,7 @@ Flask-SocketIO==3.3.1
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
+pytest-cov
 python-engineio>=3.9.0
 python-socketio==3.1.2
 six==1.12.0
