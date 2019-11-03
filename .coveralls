@@ -1,0 +1,2 @@
+service_name: travis
+repo_token: ${{ secrets.COVERALLS_TOKEN }}
