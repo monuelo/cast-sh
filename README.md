@@ -5,14 +5,15 @@
             alt="Build Status"/></a>
     <a href="https://github.com/pod-cast/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/pod-cast/cast-sh" /></a>
+    <a href='https://coveralls.io/github/pod-cast/cast-sh'><img src='https://coveralls.io/repos/github/pod-cast/cast-sh/badge.svg' alt='Coverage Status' /></a>
     <a href="https://www.python.org/downloads/">
         <img src="https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue"
             alt="Python 3.5-3.7"/></a>
-<a href="https://github.com/pod-cast/cast-sh/pulse" alt="Activity">
+    <a href="https://github.com/pod-cast/cast-sh/pulse" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/m/pod-cast/cast-sh" /></a>
     <a href="https://github.com/pod-cast/cast-sh/blob/master/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/pod-cast/cast-sh" /></a>
-<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=shield"/></a>
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=shield"/></a>
     <a href="https://lgtm.com/projects/g/pod-cast/cast-sh/alerts/">
         <img src="https://img.shields.io/lgtm/alerts/g/pod-cast/cast-sh"
             alt="Total alerts"/></a>
