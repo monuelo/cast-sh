@@ -23,9 +23,22 @@ def chrome_driver_init(request):
     yield
     chrome_driver.close()
 
+@pytest.fixture(scope="class")
+def firefox_driver_init(request):
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference('plugin.state.flash', 0)
+    profile.update_preferences()
+    firefox_driver = webdriver.Firefox(executable_path="usr/bin/geckodriver")
+    request.cls.driver = firefox_driver
+    yield
+    firefox_driver.close()
 
 @pytest.mark.usefixtures("chrome_driver_init")
 class BasicChromeTest:
+    pass
+
+@pytest.mark.usefixtures("firefox_driver_init")
+class BasicGeckoTest:
     pass
 
 
