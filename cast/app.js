@@ -8,6 +8,7 @@ var sessions = [];
 var clickCount = 0;
 var TID = 0;
 const MAX_LINES = 9999999;
+const status = document.getElementById("status");
 let socket;
 
 const generateSSID = () => (
@@ -74,11 +75,15 @@ const focusStyle = (tid) => {
     tablink.style.color = "white";
     logger.style.display = "block";
     document.getElementById(tab.ssid).style.display = "none";
+    status.innerHTML =
+    '<span class="disconnected">tab disconnected</span>';
   }
   else {
     tablink.classList.add('active');
     logger.style.display = "none";
     document.getElementById(tab.ssid).style.display = "block";
+    status.innerHTML =
+    '<span class="connected">connected</span>';
   }
   console.log("Session ID:  " + getTabByTID(tid).ssid);
 }
@@ -86,17 +91,19 @@ const focusStyle = (tid) => {
 const openSession = (tid) => {
   let tab = getTabByTID(tid);
   focusStyle(tid);
-  console.log(tab.ssid);
-  // currentSession = tab.session;
   currentSsid = tab.session.ssid;
-  // document.getElementById(tab.ssid).style.display = "block";
-  console.log(`openSession:: ${JSON.stringify(currentSsid)}`)
-  if (socket) {
-    // To register new session on WebSocket server
-    socket.emit("new-session", { session_id: currentSsid });
-
-    // To mark current tab as the current session on WebSocket server
-    socket.emit("client-input", { input: '', session_id: currentSsid })
+  if(closedTabs.includes(tid)){
+    console.log(socket);
+    console.log("This session is closed");
+  } else {
+    console.log(`openSession:: ${JSON.stringify(currentSsid)}`)
+    if (socket) {
+      // To register new session on WebSocket server
+      socket.emit("new-session", { session_id: currentSsid });
+  
+      // To mark current tab as the current session on WebSocket server
+      socket.emit("client-input", { input: '', session_id: currentSsid })
+    }
   }
 }
 
@@ -272,7 +279,6 @@ function downloadLog(ssid = currentSsid) {
 
 
 socket = io.connect("/cast", { query: `session_id=${currentSsid}` });
-const status = document.getElementById("status");
 
 socket.on("client-output", (data) => {
   let ssid = data.ssid;
