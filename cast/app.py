@@ -141,7 +141,6 @@ def connect(data=None):
 
         print("connect: task started")
 
-
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):
     # Update current session
