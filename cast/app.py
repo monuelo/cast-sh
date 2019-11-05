@@ -10,6 +10,7 @@ import os
 import subprocess
 import select
 import shlex
+import time
 
 __version__ = "0.0.1"
 
@@ -40,8 +41,9 @@ def read_and_forward_pty_output(session_id):
                     [file_desc], [], [], timeout_sec)
                 if data_ready:
                     output = os.read(file_desc, max_read_bytes).decode()
-                    socketio.emit(
-                        "client-output", {"output": output, "ssid": app.config["current_session"]}, namespace="/cast")
+                    if '$' in output or output == '\n':
+                        socketio.emit(
+                            "client-output", {"output": '\n'+output, "ssid": app.config["current_session"]}, namespace="/cast")
 
 
 @app.route("/")
@@ -174,7 +176,7 @@ def main():
     parser = argparse.ArgumentParser(
         description=(
             "An adorable instance of your terminal in your browser."
-            "https://github.com/hericlesme/cast-sh"
+            "https://github.com/pod-cast/cast-sh"
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

@@ -29,12 +29,17 @@ const termSetup = (term, ssid, newCurrentSession) => {
   term.open(document.getElementById(ssid));
   term.fit();
   term.setOption("scrollback", MAX_LINES);
-  term.writeln("Welcome to cast.sh! - https://github.com/hericlesme/cast-sh - Press [Enter] to Start");
+  term.writeln("Welcome to cast.sh! - https://github.com/pod-cast/cast-sh - Press [Enter] to Start");
 
   term.on("key", (key, ev) => {
     // 'currentSsid' is global
     console.log(`client-input:: from: ${currentSsid})}`);
     socket.emit("client-input", { input: key, session_id: currentSsid });
+     if(key.charCodeAt(0) == 8){
+      getTabBySSID(currentSsid).session.term.write('\b\r');
+    } else {
+      getTabBySSID(currentSsid).session.term.write(key);
+    }
   });
 
   getTabBySSID(ssid).session = newCurrentSession;
