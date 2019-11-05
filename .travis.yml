@@ -8,9 +8,9 @@ language: python
 cache: pip
 
 python:
-  - 3.5
   - 3.6
   - 3.7
+  - 3.8
 
 services:
   - docker
@@ -24,7 +24,7 @@ before_install:
   - sudo chown root:root /usr/bin/chromedriver
   - sudo chmod +x /usr/bin/chromedriver
   # Install testing dependencies
-  - pip install coveralls flake8 pytest pytest-cov selenium
+  - pip install black coveralls flake8 pytest pytest-cov selenium
   # Build app as docker container
   - docker build -t cast .
   - docker run -d --name cast.sh-container -p 5000:5000/tcp -i -t cast
@@ -34,6 +34,8 @@ before_script:
   - export PATH=$PATH:/usr/bin/chromedriver
 
 script:
+  # Stop build if python files arent formatted correctly
+  - black --check --verbose .
   # Stop the build if there are Python syntax errors or undefined names
   - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
   # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
