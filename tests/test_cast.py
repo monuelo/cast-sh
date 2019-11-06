@@ -1,9 +1,8 @@
 import sys
 import unittest
 
-from flask import Flask
-
 from cast.app import app, create_parser
+from flask import Flask
 
 
 class CastShTests(unittest.TestCase):
