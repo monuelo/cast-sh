@@ -18,20 +18,21 @@ services:
 before_install:
   - sudo apt-get update
   # Get stable version of chrome driver
-  - wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip
-  - sudo mv chromedriver /usr/bin/chromedriver
-  - sudo chown root:root /usr/bin/chromedriver
-  - sudo chmod +x /usr/bin/chromedriver
-  # Install testing dependencies
-  - pip install black coveralls flake8 pytest pytest-cov selenium
+  # - wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip
+  # - unzip chromedriver_linux64.zip
+  # - sudo mv chromedriver /usr/bin/chromedriver
+  # - sudo chown root:root /usr/bin/chromedriver
+  # - sudo chmod +x /usr/bin/chromedriver
+  # # Install testing dependencies
+  # - pip install black coveralls flake8 pytest pytest-cov selenium
+  - pip install black coveralls flake8 pytest pytest-cov
   # Build app as docker container
   - docker build -t cast .
   - docker run -d --name cast.sh-container -p 5000:5000/tcp -i -t cast
 
 before_script:
   # include ChromeDriver in PATH
-  - export PATH=$PATH:/usr/bin/chromedriver
+  # - export PATH=$PATH:/usr/bin/chromedriver
 
 script:
   # Stop build if python files arent formatted correctly
