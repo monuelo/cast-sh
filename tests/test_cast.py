@@ -3,8 +3,15 @@ import sys
 import unittest
 
 from flask import Flask
-from flask_socketio import SocketIO, send, emit, join_room, leave_room, \
-    Namespace, disconnect
+from flask_socketio import (
+    SocketIO,
+    send,
+    emit,
+    join_room,
+    leave_room,
+    Namespace,
+    disconnect,
+)
 
 from cast.app import app, create_parser
 
@@ -52,13 +59,13 @@ class CastShTestCase(CastShCLIOptionsTests):
         User passes no args, should fail with SystemExit
         """
         with self.assertRaises(SystemExit):
-            self.parser.parse_args(['--help'])
+            self.parser.parse_args(["--help"])
 
     def test_version(self):
         """
         User passes no args, should fail with SystemExit
         """
-        args = self.parser.parse_args(['--version'])
+        args = self.parser.parse_args(["--version"])
         self.assertTrue(args.version)
 
     def test_bad_version(self):
@@ -66,6 +73,5 @@ class CastShTestCase(CastShCLIOptionsTests):
         User passes no args, should fail with SystemExit
         """
         with self.assertRaises(SystemExit):
-            args = self.parser.parse_args(['--help'])
+            args = self.parser.parse_args(["--help"])
             self.assertFalse(args.version)
-
