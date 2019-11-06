@@ -37,14 +37,14 @@ class CastShCLIOptionsTests(unittest.TestCase):
 
     def test_command(self):
         """
-        User passes --help, should fail with SystemExit because it printed to stdout
+        default --command arg is bash
         """
         args = self.parser.parse_args([])
         self.assertEqual(args.command, "bash")
 
     def test_debug(self):
         """
-        User passes --help, should fail with SystemExit because it printed to stdout
+        User passes --debug, should be true
         """
         args = self.parser.parse_args(["--debug"])
         self.assertTrue(args.debug)
@@ -58,7 +58,9 @@ class CastShCLIOptionsTests(unittest.TestCase):
 
     def test_ports(self):
         """
-        User passes --help, should fail with SystemExit because it printed to stdout
+        User passes custom port
+
+        * TODO: verify via a ping to that port
         """
         customer_port = str(randint(6000, 8000))
         args = self.parser.parse_args(["-p", customer_port])
@@ -75,7 +77,7 @@ class CastShCLIOptionsTests(unittest.TestCase):
 
     def test_bad_version(self):
         """
-        User passes --help only, version flag should not be true
+        User doesnt ask for version, version flag should not be true
         """
         with self.assertRaises(SystemExit):
             args = self.parser.parse_args(["--help"])
