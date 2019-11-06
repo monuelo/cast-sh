@@ -1,6 +1,15 @@
+import logging
+import sys
 import unittest
 
-from cast.app import app
+from flask import Flask
+from flask_socketio import SocketIO, send, emit, join_room, leave_room, \
+    Namespace, disconnect
+
+from cast.app import app, create_parser
+
+logging.basicConfig(stream=sys.stderr)
+logging.getLogger("SomeTest.testSomething").setLevel(logging.DEBUG)
 
 
 class CastShTests(unittest.TestCase):
@@ -28,3 +37,35 @@ class CastShTests(unittest.TestCase):
         result = self.app.get("/")
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
+
+
+class CastShCLIOptionsTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        parser = create_parser()
+        cls.parser = parser
+
+
+class CastShTestCase(CastShCLIOptionsTests):
+    def test_help(self):
+        """
+        User passes no args, should fail with SystemExit
+        """
+        with self.assertRaises(SystemExit):
+            self.parser.parse_args(['--help'])
+
+    def test_version(self):
+        """
+        User passes no args, should fail with SystemExit
+        """
+        args = self.parser.parse_args(['--version'])
+        self.assertTrue(args.version)
+
+    def test_bad_version(self):
+        """
+        User passes no args, should fail with SystemExit
+        """
+        with self.assertRaises(SystemExit):
+            args = self.parser.parse_args(['--help'])
+            self.assertFalse(args.version)
+
