@@ -1,0 +1,7 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+
+[report]
+exclude_lines =
+    if __name__ == .__main__.:
