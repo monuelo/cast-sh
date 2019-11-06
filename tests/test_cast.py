@@ -1,8 +1,6 @@
-import sys
 import unittest
 
 from cast.app import app, create_parser
-from flask import Flask
 
 
 class CastShTests(unittest.TestCase):
@@ -32,21 +30,21 @@ class CastShCLIOptionsTests(unittest.TestCase):
 
     def test_help(self):
         """
-        User passes no args, should fail with SystemExit
+        User passes --help, should fail with SystemExit because it printed to stdout
         """
         with self.assertRaises(SystemExit):
             self.parser.parse_args(["--help"])
 
     def test_version(self):
         """
-        User passes no args, should fail with SystemExit
+        User passes --version, should register in argparse as True
         """
         args = self.parser.parse_args(["--version"])
         self.assertTrue(args.version)
 
     def test_bad_version(self):
         """
-        User passes no args, should fail with SystemExit
+        User passes --help only, version flag should not be true
         """
         with self.assertRaises(SystemExit):
             args = self.parser.parse_args(["--help"])
