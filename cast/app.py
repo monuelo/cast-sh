@@ -11,17 +11,15 @@ import os
 import subprocess
 import select
 import shlex
-import time
 
 __version__ = "0.0.1"
 
-app = Flask(__name__, template_folder=".",
-            static_folder=".", static_url_path="")
+app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
 app.config["fd"] = None
 app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
-app.config["log_file"] = r'log_data/'
+app.config["log_file"] = r"log_data/"
 socketio = flask_socketio.SocketIO(app)
 
 
@@ -38,8 +36,7 @@ def read_and_forward_pty_output(session_id):
 
             if file_desc:
                 timeout_sec = 0
-                (data_ready, _, _) = select.select(
-                    [file_desc], [], [], timeout_sec)
+                (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
                 if data_ready:
                     try:
                         output = os.read(file_desc, max_read_bytes).decode()
@@ -51,6 +48,7 @@ def read_and_forward_pty_output(session_id):
                             "disconnect", namespace="/cast"
                         )
                         sys.exit(0)
+
 
 @app.route("/")
 def index():
@@ -64,7 +62,7 @@ def new_session(data=None):
     """To register session on WebSocket server
     Similar to 'connect()', used for adding a new tab session
     """
-    session_id = ''
+    session_id = ""
     if data is not None:
         session_id = data["session_id"]
     print("new-session: {}\n".format(session_id))
@@ -98,16 +96,20 @@ def new_session(data=None):
         """
 
         socketio.start_background_task(
-            target=read_and_forward_pty_output, session_id=session_id)
+            target=read_and_forward_pty_output, session_id=session_id
+        )
 
         print("new-session: task started")
 
 
 @socketio.on("connect", namespace="/cast")
 def connect(data=None):
-    session_id = request.values.get('session_id') if not request.values.get(
-        'session_id') is None else ''
-    if session_id == '' and data is not None:
+    session_id = (
+        request.values.get("session_id")
+        if not request.values.get("session_id") is None
+        else ""
+    )
+    if session_id == "" and data is not None:
         session_id = data["session_id"]
         print("connect: {}\n".format(session_id))
 
@@ -145,7 +147,8 @@ def connect(data=None):
 
         # Output terminal message corresponding to ssid
         socketio.start_background_task(
-            target=read_and_forward_pty_output, session_id=session_id)
+            target=read_and_forward_pty_output, session_id=session_id
+        )
 
         print("connect: task started")
 
@@ -153,27 +156,28 @@ def connect(data=None):
 def client_input(data):
     # Update current session
     app.config["current_session"] = data["session_id"]
-    print("input: {}".format(app.config['sessions']))
+    print("input: {}".format(app.config["sessions"]))
     log = Logging(app.config["current_session"])
 
     if data["session_id"] in app.config["sessions"]:
         file_desc = app.config["sessions"][data["session_id"]]["fd"]
 
         if file_desc:
-            if data["input"] == '':
+            if data["input"] == "":
                 # When switching sessions, send a key to update terminal content
-                os.write(file_desc, b'\x00')
+                os.write(file_desc, b"\x00")
             else:
-                log.write_log(data['input'])
+                log.write_log(data["input"])
                 os.write(file_desc, data["input"].encode())
 
 
 # This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
-
 @app.route("/download/<string:file_path>")
 def download(file_path):
     try:
-        return send_from_directory(app.config["log_file"], filename=file_path, as_attachment=True)
+        return send_from_directory(
+            app.config["log_file"], filename=file_path, as_attachment=True
+        )
     except BadRequest as e:
         return 404
 
@@ -186,12 +190,9 @@ def main():
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-p", "--port", default=5000,
-                        help="port to run server on")
-    parser.add_argument("--debug", action="store_true",
-                        help="debug the server")
-    parser.add_argument("--version", action="store_true",
-                        help="print version and exit")
+    parser.add_argument("-p", "--port", default=5000, help="port to run server on")
+    parser.add_argument("--debug", action="store_true", help="debug the server")
+    parser.add_argument("--version", action="store_true", help="print version and exit")
     parser.add_argument(
         "--command", default="bash", help="Command to run in the terminal"
     )
