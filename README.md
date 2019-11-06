@@ -5,7 +5,7 @@
             alt="Build Status"/></a>
     <a href="https://github.com/pod-cast/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/pod-cast/cast-sh" /></a>
-    <a href='https://coveralls.io/github/pod-cast/cast-sh'><img src='https://coveralls.io/repos/github/pod-cast/cast-sh/badge.svg' alt='Coverage Status' /></a>
+    <a href='https://coveralls.io/github/pod-cast/cast-sh?branch=dev'><img src='https://coveralls.io/repos/github/pod-cast/cast-sh/badge.svg?branch=dev' alt='Coverage Status' /></a>
     <a href="https://www.python.org/downloads/">
         <img src="https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue"
             alt="Python 3.5-3.7"/></a>
