@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import argparse
+import sys
+
 from flask import Flask, render_template, request, send_from_directory
 import flask_socketio
 from werkzeug.exceptions import BadRequest
@@ -178,7 +180,7 @@ def download(file_path):
         return 404
 
 
-def main():
+def create_parser():
     parser = argparse.ArgumentParser(
         description=(
             "An adorable instance of your terminal in your browser."
@@ -197,10 +199,15 @@ def main():
         default="",
         help="arguments to pass to command (i.e. --cmd-args='arg1 arg2 --flag')",
     )
+    return parser
+
+
+def main():
+    parser = create_parser()
     args = parser.parse_args()
     if args.version:
         print(__version__)
-        exit(0)
+        sys.exit(0)
     print("serving on http://0.0.0.0:{}".format(args.port))
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
