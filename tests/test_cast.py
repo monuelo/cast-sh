@@ -59,8 +59,7 @@ class CastShCLIOptionsTests(unittest.TestCase):
     def test_ports(self):
         """
         User passes custom port
-
-        * TODO: verify via a ping to that port
+        TODO: verify via a ping to that port
         """
         customer_port = str(randint(6000, 8000))
         args = self.parser.parse_args(["-p", customer_port])
