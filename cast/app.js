@@ -35,11 +35,10 @@ const termSetup = (term, ssid, newCurrentSession) => {
     // 'currentSsid' is global
     console.log(`client-input:: from: ${currentSsid})}`);
     socket.emit("client-input", { input: key, session_id: currentSsid });
-     if(key.charCodeAt(0) == 8){
-      getTabBySSID(currentSsid).session.term.write('\b\r');
-    } else {
-      getTabBySSID(currentSsid).session.term.write(key);
-    }
+    getTabBySSID(currentSsid).session.term.write(key);
+    if(key.charCodeAt(0) == 13){
+      getTabBySSID(currentSsid).session.term.write('\n');
+    };
   });
 
   getTabBySSID(ssid).session = newCurrentSession;
@@ -254,7 +253,7 @@ currentSsid = createTab();
 
 function downloadLog(ssid = currentSsid) {
   console.log("Downloading log for " + ssid);
-  fetch('/download/' + ssid + '.log')
+  fetch('/download/log_' + ssid + '.log')
     .then(function (response) {
       if (!response.ok) {
         throw Error(response.statusText);
@@ -292,13 +291,20 @@ socket.on("client-output", (data) => {
 });
 
 socket.on("connect", () => {
+  var addTab = document.getElementById("create-tab");
+  addTab.style.display = "block";
   status.innerHTML =
     '<span class="connected">connected</span>';
 });
 
 socket.on("disconnect", () => {
+  var addTab = document.getElementById("create-tab");
+  addTab.style.display = "none";
   status.innerHTML =
     '<span class="disconnected">disconnected</span>';
+  for(var i=0; i<tabs.length;i++){
+    closeSession(String(i));
+  };
 });
 
 

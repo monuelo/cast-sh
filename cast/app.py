@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import sys
 from flask import Flask, render_template, request, send_from_directory
 import flask_socketio
 from werkzeug.exceptions import BadRequest
@@ -25,7 +26,7 @@ socketio = flask_socketio.SocketIO(app)
 
 
 def read_and_forward_pty_output(session_id):
-    max_read_bytes = 1024 * 20
+    max_read_bytes = 1024 * 2
     app.config["current_session"] = session_id
 
     while True:
@@ -40,11 +41,16 @@ def read_and_forward_pty_output(session_id):
                 (data_ready, _, _) = select.select(
                     [file_desc], [], [], timeout_sec)
                 if data_ready:
-                    output = os.read(file_desc, max_read_bytes).decode()
-                    if '$' in output or output == '\n':
+                    try:
+                        output = os.read(file_desc, max_read_bytes).decode()
+                        if len(output) > 5 or output == '\b':
+                            socketio.emit(
+                                "client-output", {"output": output, "ssid": app.config["current_session"]}, namespace="/cast")
+                    except OSError:
                         socketio.emit(
-                            "client-output", {"output": '\n'+output, "ssid": app.config["current_session"]}, namespace="/cast")
-
+                            "disconnect", namespace="/cast"
+                        )
+                        sys.exit(0)
 
 @app.route("/")
 def index():
@@ -197,7 +203,7 @@ def main():
     args = parser.parse_args()
     if args.version:
         print(__version__)
-        exit(0)
+        sys.exit(0)
     print("serving on http://0.0.0.0:{}".format(args.port))
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
