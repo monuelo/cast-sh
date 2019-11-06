@@ -1,18 +1,15 @@
 import unittest
+from random import randint
 
 from cast.app import app, create_parser
 
 
-class CastShTests(unittest.TestCase):
+class CastShRouteTests(unittest.TestCase):
     def setUp(self):
         # creates a test client
         self.app = app.test_client()
-
         # propagate the exceptions to the test client
         self.app.testing = True
-
-    def tearDown(self):
-        pass
 
     def test_home_status_code(self):
         # sends HTTP GET request to the application
@@ -20,6 +17,15 @@ class CastShTests(unittest.TestCase):
         result = self.app.get("/")
         # assert the status code of the response
         self.assertEqual(result.status_code, 200)
+
+    def test_download_404_code(self):
+        # sends HTTP GET request to the application
+        # on the specified path
+        result = self.app.get("/download/")
+        # assert the status code of the response
+        self.assertEqual(result.status_code, 404)
+        result = self.app.get("/download/{}".format(randint(1, 100000)))
+        self.assertEqual(result.status_code, 404)
 
 
 class CastShCLIOptionsTests(unittest.TestCase):
