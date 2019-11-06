@@ -1,33 +1,12 @@
-import logging
 import sys
 import unittest
 
 from flask import Flask
-from flask_socketio import (
-    SocketIO,
-    send,
-    emit,
-    join_room,
-    leave_room,
-    Namespace,
-    disconnect,
-)
 
 from cast.app import app, create_parser
 
-logging.basicConfig(stream=sys.stderr)
-logging.getLogger("SomeTest.testSomething").setLevel(logging.DEBUG)
-
 
 class CastShTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        pass
-
     def setUp(self):
         # creates a test client
         self.app = app.test_client()
@@ -52,8 +31,6 @@ class CastShCLIOptionsTests(unittest.TestCase):
         parser = create_parser()
         cls.parser = parser
 
-
-class CastShTestCase(CastShCLIOptionsTests):
     def test_help(self):
         """
         User passes no args, should fail with SystemExit
