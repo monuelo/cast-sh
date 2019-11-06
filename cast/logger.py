@@ -9,9 +9,9 @@ class Logging:
     and updated as they are encountered.
     """
 
-    def __init__(self,session_id):
-        self.folder = r'cast/log_data'
-        self.file_location = r'cast/log_data/log_' + str(session_id)+ r'.log'
+    def __init__(self, session_id):
+        self.folder = r"cast/log_data"
+        self.file_location = r"cast/log_data/log_" + str(session_id) + r".log"
 
     def write_log(self, data_value):
         # Streams the data into a file for the Logging

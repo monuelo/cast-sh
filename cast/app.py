@@ -41,13 +41,17 @@ def read_and_forward_pty_output(session_id):
                 if data_ready:
                     try:
                         output = os.read(file_desc, max_read_bytes).decode()
-                        if len(output) > 5 or output == '\b':
+                        if len(output) > 5 or output == "\b":
                             socketio.emit(
-                                "client-output", {"output": output, "ssid": app.config["current_session"]}, namespace="/cast")
+                                "client-output",
+                                {
+                                    "output": output,
+                                    "ssid": app.config["current_session"],
+                                },
+                                namespace="/cast",
+                            )
                     except OSError:
-                        socketio.emit(
-                            "disconnect", namespace="/cast"
-                        )
+                        socketio.emit("disconnect", namespace="/cast")
                         sys.exit(0)
 
 
@@ -152,6 +156,7 @@ def connect(data=None):
         )
 
         print("connect: task started")
+
 
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):

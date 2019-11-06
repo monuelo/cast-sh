@@ -49,4 +49,3 @@ class CastShCLIOptionsTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             args = self.parser.parse_args(["--help"])
             self.assertFalse(args.version)
-
