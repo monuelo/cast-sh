@@ -25,7 +25,7 @@ socketio = flask_socketio.SocketIO(app)
 
 
 def read_and_forward_pty_output(session_id):
-    max_read_bytes = 1024 * 20
+    max_read_bytes = 1024 * 2
     app.config["current_session"] = session_id
 
     while True:
@@ -39,12 +39,20 @@ def read_and_forward_pty_output(session_id):
                 timeout_sec = 0
                 (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
                 if data_ready:
-                    output = os.read(file_desc, max_read_bytes).decode()
-                    socketio.emit(
-                        "client-output",
-                        {"output": output, "ssid": app.config["current_session"]},
-                        namespace="/cast",
-                    )
+                    try:
+                        output = os.read(file_desc, max_read_bytes).decode()
+                        if len(output) > 5 or output == "\b":
+                            socketio.emit(
+                                "client-output",
+                                {
+                                    "output": output,
+                                    "ssid": app.config["current_session"],
+                                },
+                                namespace="/cast",
+                            )
+                    except OSError:
+                        socketio.emit("disconnect", namespace="/cast")
+                        sys.exit(0)
 
 
 @app.route("/")
@@ -184,7 +192,7 @@ def create_parser():
     parser = argparse.ArgumentParser(
         description=(
             "An adorable instance of your terminal in your browser."
-            "https://github.com/hericlesme/cast-sh"
+            "https://github.com/pod-cast/cast-sh"
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

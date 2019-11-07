@@ -105,3 +105,4 @@ venv.bak/
 
 # Project Folders
 log_data/
+.vscode/
