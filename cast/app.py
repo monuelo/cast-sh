@@ -41,7 +41,6 @@ def read_and_forward_pty_output(session_id):
                 if data_ready:
                     try:
                         output = os.read(file_desc, max_read_bytes).decode()
-
                         if len(output) > 3 or output == r"\b":
                             socketio.emit(
                                 "client-output",
