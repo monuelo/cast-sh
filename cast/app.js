@@ -79,15 +79,11 @@ const focusStyle = (tid) => {
     tablink.style.color = "white";
     logger.style.display = "block";
     document.getElementById(tab.ssid).style.display = "none";
-    status.innerHTML =
-    '<span class="disconnected">tab disconnected</span>';
   }
   else {
     tablink.classList.add('active');
     logger.style.display = "none";
     document.getElementById(tab.ssid).style.display = "block";
-    status.innerHTML =
-    '<span class="connected">connected</span>';
   }
   console.log("Session ID:  " + getTabByTID(tid).ssid);
 }
