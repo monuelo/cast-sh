@@ -208,3 +208,23 @@ a {
 }
 
 /* END Form */
+
+
+/* Not Found */
+
+.not_found{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #1f1f1f;
+}
+
+.not_found h1 {
+  font-size: 20vh;
+  margin: 0;
+}
+
+.not_found a {
+  color: rgb(203, 244, 92) !important;
+}

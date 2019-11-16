@@ -32,19 +32,33 @@ class TestCast(BasicChromeTest):
     def test_serving_app_html(self):
         self.driver.get("http://127.0.0.1:5000")
         sleep(2.5)  # TODO:Should be implicit wait
-        assert self.driver.title == "cast.sh"
+        assert self.driver.title == "Login - cast.sh"
 
-    def test_empty_session_log_download(self):
-        self.driver.get("http://127.0.0.1:5000")
-        tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
-        assert len(tabs) == 1
-        close_tabs = self.driver.find_elements(By.CLASS_NAME, "close")
-        assert len(close_tabs) == 1
-        close_tabs[0].click()
-        tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
-        assert tabs[0].text == "[closed] tab 1"
-        log_btn = self.driver.find_element(By.CLASS_NAME, "log")
-        log_btn.click()
-        sleep(2)
-        no_log_avlble = self.driver.find_element(By.CLASS_NAME, "notyf__message")
-        assert no_log_avlble.text == "No log available for download."
+    def test_unauthorized_redirect(self):
+        self.driver.get("http://127.0.0.1:5000/cast")
+        sleep(2.5)
+        assert self.driver.title == "Login - cast.sh"
+
+    def test_not_found(self):
+        self.driver.get("http://127.0.0.1:5000/NotARoute")
+        sleep(2.5)
+        assert self.driver.title == "Not Found - cast.sh"
+
+        self.driver.get("http://127.0.0.1:5000/JustOneMoreNonRoute")
+        sleep(2.5)
+        assert self.driver.title == "Not Found - cast.sh"
+    
+    # def test_empty_session_log_download(self):
+    #     self.driver.get("http://127.0.0.1:5000")
+    #     tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
+    #     assert len(tabs) == 1
+    #     close_tabs = self.driver.find_elements(By.CLASS_NAME, "close")
+    #     assert len(close_tabs) == 1
+    #     close_tabs[0].click()
+    #     tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
+    #     assert tabs[0].text == "[closed] tab 1"
+    #     log_btn = self.driver.find_element(By.CLASS_NAME, "log")
+    #     log_btn.click()
+    #     sleep(2)
+    #     no_log_avlble = self.driver.find_element(By.CLASS_NAME, "notyf__message")
+    #     assert no_log_avlble.text == "No log available for download."
