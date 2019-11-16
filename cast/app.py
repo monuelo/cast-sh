@@ -41,18 +41,17 @@ app.config["sessions"] = {}
 app.config["log_file"] = r"log_data/"
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 
+
 def random_string(string_length=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
     return "".join(random.choice(letters) for i in range(string_length))
 
+
 app.config["JWT_SECRET_KEY"] = random_string()
 
 jwt = JWTManager(app)
 socketio = flask_socketio.SocketIO(app)
-
-
-
 
 
 def read_and_forward_pty_output(session_id):
@@ -77,6 +76,7 @@ def read_and_forward_pty_output(session_id):
                         namespace="/cast",
                     )
 
+
 @jwt.unauthorized_loader
 def unauthorized_response(callback):
     return redirect("/")
@@ -99,7 +99,7 @@ def index():
 def login():
     if request.method == "GET":
         return render_template("login.html")
-        
+
     elif request.method == "POST":
         data = request.json
         if data["password"] == app.config["passwd"]:
