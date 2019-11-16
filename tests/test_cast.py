@@ -48,29 +48,29 @@ class TestCast(BasicChromeTest):
         sleep(2.5)
         assert self.driver.title == "Not Found - cast.sh"
 
-
     def test_login(self):
         self.driver.get("http://127.0.0.1:5000")
         password = self.driver.find_element(By.ID, "password")
         password.send_keys("admin")
 
         login = self.driver.find_element(By.ID, "button")
-        login.click()        
-        
+        login.click()
+
         sleep(2.5)
         assert self.driver.title == "cast.sh"
 
-    # def test_empty_session_log_download(self):
-    #     self.driver.get("http://127.0.0.1:5000")
-    #     tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
-    #     assert len(tabs) == 1
-    #     close_tabs = self.driver.find_elements(By.CLASS_NAME, "close")
-    #     assert len(close_tabs) == 1
-    #     close_tabs[0].click()
-    #     tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
-    #     assert tabs[0].text == "[closed] tab 1"
-    #     log_btn = self.driver.find_element(By.CLASS_NAME, "log")
-    #     log_btn.click()
-    #     sleep(2)
-    #     no_log_avlble = self.driver.find_element(By.CLASS_NAME, "notyf__message")
-    #     assert no_log_avlble.text == "No log available for download."
+    def test_empty_session_log_download(self):
+        self.test_login()
+        self.driver.get("http://127.0.0.1:5000/cast")
+        tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
+        assert len(tabs) == 1
+        close_tabs = self.driver.find_elements(By.CLASS_NAME, "close")
+        assert len(close_tabs) == 1
+        close_tabs[0].click()
+        tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
+        assert tabs[0].text == "[closed] tab 1"
+        log_btn = self.driver.find_element(By.CLASS_NAME, "log")
+        log_btn.click()
+        sleep(2)
+        no_log_avlble = self.driver.find_element(By.CLASS_NAME, "notyf__message")
+        assert no_log_avlble.text == "No log available for download."
