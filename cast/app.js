@@ -8,6 +8,7 @@ var sessions = [];
 var clickCount = 0;
 var TID = 0;
 const MAX_LINES = 9999999;
+const status = document.getElementById("status");
 let socket;
 
 const generateSSID = () => (
@@ -28,12 +29,16 @@ const termSetup = (term, ssid, newCurrentSession) => {
   term.open(document.getElementById(ssid));
   term.fit();
   term.setOption("scrollback", MAX_LINES);
-  term.writeln("Welcome to cast.sh! - https://github.com/hericlesme/cast-sh - Press [Enter] to Start");
+  term.writeln("Welcome to cast.sh! - https://github.com/pod-cast/cast-sh - Press [Enter] to Start");
 
   term.on("key", (key, ev) => {
     // 'currentSsid' is global
     console.log(`client-input:: from: ${currentSsid})}`);
     socket.emit("client-input", { input: key, session_id: currentSsid });
+    getTabBySSID(currentSsid).session.term.write(key);
+    if(key.charCodeAt(0) == 13){
+      getTabBySSID(currentSsid).session.term.write('\n');
+    };
   });
 
   getTabBySSID(ssid).session = newCurrentSession;
@@ -86,17 +91,19 @@ const focusStyle = (tid) => {
 const openSession = (tid) => {
   let tab = getTabByTID(tid);
   focusStyle(tid);
-  console.log(tab.ssid);
-  // currentSession = tab.session;
   currentSsid = tab.session.ssid;
-  // document.getElementById(tab.ssid).style.display = "block";
-  console.log(`openSession:: ${JSON.stringify(currentSsid)}`)
-  if (socket) {
-    // To register new session on WebSocket server
-    socket.emit("new-session", { session_id: currentSsid });
-
-    // To mark current tab as the current session on WebSocket server
-    socket.emit("client-input", { input: '', session_id: currentSsid })
+  if(closedTabs.includes(tid)){
+    console.log(socket);
+    console.log("This session is closed");
+  } else {
+    console.log(`openSession:: ${JSON.stringify(currentSsid)}`)
+    if (socket) {
+      // To register new session on WebSocket server
+      socket.emit("new-session", { session_id: currentSsid });
+  
+      // To mark current tab as the current session on WebSocket server
+      socket.emit("client-input", { input: '', session_id: currentSsid })
+    }
   }
 }
 
@@ -242,7 +249,7 @@ currentSsid = createTab();
 
 function downloadLog(ssid = currentSsid) {
   console.log("Downloading log for " + ssid);
-  fetch('/download/' + ssid + '.log')
+  fetch('/download/log_' + ssid + '.log')
     .then(function (response) {
       if (!response.ok) {
         throw Error(response.statusText);
@@ -272,7 +279,6 @@ function downloadLog(ssid = currentSsid) {
 
 
 socket = io.connect("/cast", { query: `session_id=${currentSsid}` });
-const status = document.getElementById("status");
 
 socket.on("client-output", (data) => {
   let ssid = data.ssid;
@@ -281,13 +287,20 @@ socket.on("client-output", (data) => {
 });
 
 socket.on("connect", () => {
+  var addTab = document.getElementById("create-tab");
+  addTab.style.display = "block";
   status.innerHTML =
     '<span class="connected">connected</span>';
 });
 
 socket.on("disconnect", () => {
+  var addTab = document.getElementById("create-tab");
+  addTab.style.display = "none";
   status.innerHTML =
     '<span class="disconnected">disconnected</span>';
+  for(var i=0; i<tabs.length;i++){
+    closeSession(String(i));
+  };
 });
 
 
