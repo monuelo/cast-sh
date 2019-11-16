@@ -47,7 +47,7 @@ class TestCast(BasicChromeTest):
         self.driver.get("http://127.0.0.1:5000/JustOneMoreNonRoute")
         sleep(2.5)
         assert self.driver.title == "Not Found - cast.sh"
-    
+
     # def test_empty_session_log_download(self):
     #     self.driver.get("http://127.0.0.1:5000")
     #     tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
