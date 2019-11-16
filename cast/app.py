@@ -7,12 +7,16 @@ from flask import (
     send_from_directory,
     redirect,
     url_for,
-    jsonify
+    jsonify,
 )
 import flask_socketio
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity, get_jwt_claims, set_access_cookies
+    JWTManager,
+    jwt_required,
+    create_access_token,
+    get_jwt_identity,
+    get_jwt_claims,
+    set_access_cookies,
 )
 from werkzeug.exceptions import BadRequest
 import json
@@ -27,8 +31,8 @@ import string
 
 __version__ = "0.0.1"
 
-app = Flask(__name__, template_folder=".",
-            static_folder=".", static_url_path="")
+app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
+
 app.config["fd"] = None
 app.config["logged"] = False
 app.config["private"] = False
@@ -36,14 +40,18 @@ app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
 app.config["log_file"] = r"log_data/"
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_SECRET_KEY"] = random_string()
+
+jwt = JWTManager(app)
 socketio = flask_socketio.SocketIO(app)
 
 
 def random_string(string_length=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(string_length))
+    return "".join(random.choice(letters) for i in range(string_length))
+
 
 def read_and_forward_pty_output(session_id):
     max_read_bytes = 1024 * 20
@@ -58,29 +66,31 @@ def read_and_forward_pty_output(session_id):
 
             if file_desc:
                 timeout_sec = 0
-                (data_ready, _, _) = select.select(
-                    [file_desc], [], [], timeout_sec)
+                (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
                 if data_ready:
                     output = os.read(file_desc, max_read_bytes).decode()
                     socketio.emit(
                         "client-output",
-                        {"output": output,
-                            "ssid": app.config["current_session"]},
+                        {"output": output, "ssid": app.config["current_session"]},
                         namespace="/cast",
                     )
 
 
 def setup_session():
-
-    app.config['JWT_SECRET_KEY'] = random_string()
-    jwt = JWTManager(app)
-
-
-    passwd = os.getenv('CAST_PASSWORD')
+    passwd = os.getenv("CAST_PASSWORD")
     if passwd is not None:
         app.config["private"] = True
         app.config["passwd"] = passwd
 
+
+@jwt.unauthorized_loader
+def unauthorized_response(callback):
+    return redirect("/")
+
+
+@jwt.invalid_token_loader
+def invalid_token(callback):
+    return redirect("/")
 
 
 @app.route("/cast")
@@ -91,15 +101,15 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def login():
-    if request.method == 'GET':
+    if request.method == "GET":
         return render_template("login.html")
-    elif request.method == 'POST':
+    elif request.method == "POST":
         data = request.json
         if data["password"] == app.config["passwd"]:
-            access_token = create_access_token(identity=os.getenv('JOB_ID'))
-            resp = jsonify({'login': True})
+            access_token = create_access_token(identity=os.getenv("JOB_ID"))
+            resp = jsonify({"login": True})
             set_access_cookies(resp, access_token)
             return resp
         else:
@@ -240,12 +250,9 @@ def main():
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-p", "--port", default=5000,
-                        help="port to run server on")
-    parser.add_argument("--debug", action="store_true",
-                        help="debug the server")
-    parser.add_argument("--version", action="store_true",
-                        help="print version and exit")
+    parser.add_argument("-p", "--port", default=5000, help="port to run server on")
+    parser.add_argument("--debug", action="store_true", help="debug the server")
+    parser.add_argument("--version", action="store_true", help="print version and exit")
     parser.add_argument(
         "--command", default="bash", help="Command to run in the terminal"
     )
