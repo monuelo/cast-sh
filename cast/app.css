@@ -217,11 +217,11 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #1f1f1f;
+  color: #333333;
 }
 
 .not_found h1 {
-  font-size: 20vh;
+  font-size: 25vh;
   margin: 0;
 }
 

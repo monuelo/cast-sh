@@ -32,7 +32,7 @@ before_install:
 
 before_script:
   # include ChromeDriver in PATH
-  # - export PATH=$PATH:/usr/bin/chromedriver
+  - export PATH=$PATH:/usr/bin/chromedriver
 
 script:
   # Stop build if python files arent formatted correctly

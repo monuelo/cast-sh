@@ -281,8 +281,7 @@ def main():
     args = parser.parse_args()
     if args.version:
         print(__version__)
-
-    sys.exit(0)
+        sys.exit(0)
 
     app.config["passwd"] = args.password
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
