@@ -8,4 +8,4 @@ test:
 	@pytest --verbose
 
 run:
-	@python -m cast
+	@python -m cast ${ARGS}

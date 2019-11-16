@@ -130,3 +130,101 @@ a {
   outline: greenyellow;
   cursor: text;
 }
+
+/*** Login ***/
+
+/* Form */
+.form {
+  position: relative;
+  z-index: 1;
+  background: #1a1a1a;
+  max-width: 300px;
+  padding: 30px;
+  text-align: center;
+}
+
+.form .thumbnail {
+  background: rgb(203, 244, 92);
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 30px;
+  padding: 30px;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+.form .thumbnail img {
+  display: block;
+  width: 100%;
+}
+.form input {
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  outline: 0;
+  background: rgb(203, 244, 92);
+  color: #1a1a1a;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-size: 14px;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form .message {
+  margin: 15px;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #EF3B3A;
+  text-decoration: none;
+}
+
+.login {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form * {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* END Form */
+
+
+/* Not Found */
+
+.not_found{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333333;
+}
+
+.not_found h1 {
+  font-size: 25vh;
+  margin: 0;
+}
+
+.not_found a {
+  color: rgb(203, 244, 92) !important;
+}
