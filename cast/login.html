@@ -41,12 +41,10 @@
 
     function login() {
         let password = document.getElementById("password").value;
-        axios.post('/login',
+        axios.post('/',
             { "password": password }
         ).then(res => {
-            setCookie('token', res.data.access_token, 30)
-            console.log(res);
-            window.location.href = '/';
+            window.location.href = '/cast';
         })
             .catch(err => console.log(err));
     }

@@ -7,11 +7,12 @@ from flask import (
     send_from_directory,
     redirect,
     url_for,
+    jsonify
 )
 import flask_socketio
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
-    get_jwt_identity, get_jwt_claims
+    get_jwt_identity, get_jwt_claims, set_access_cookies
 )
 from werkzeug.exceptions import BadRequest
 import json
@@ -35,6 +36,7 @@ app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
 app.config["log_file"] = r"log_data/"
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 socketio = flask_socketio.SocketIO(app)
 
 
@@ -69,7 +71,7 @@ def read_and_forward_pty_output(session_id):
 
 
 def setup_session():
-    
+
     app.config['JWT_SECRET_KEY'] = random_string()
     jwt = JWTManager(app)
 
@@ -79,17 +81,17 @@ def setup_session():
         app.config["private"] = True
         app.config["passwd"] = passwd
 
+
+
+@app.route("/cast")
 @jwt_required
-@app.route("/")
 def index():
-    if app.config["private"] and not app.config["logged"]:
-        return redirect(url_for("login"))
     log = Logging(app.config["current_session"])
     log.make_log_folder()
     return render_template("index.html")
 
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template("login.html")
@@ -97,8 +99,9 @@ def login():
         data = request.json
         if data["password"] == app.config["passwd"]:
             access_token = create_access_token(identity=os.getenv('JOB_ID'))
-            app.config['logged'] = True
-            return json.dumps({"access_token": access_token}), 200
+            resp = jsonify({'login': True})
+            set_access_cookies(resp, access_token)
+            return resp
         else:
             return json.dumps(request.get_json()), 401
 
