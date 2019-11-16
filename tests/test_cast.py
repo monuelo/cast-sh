@@ -63,3 +63,12 @@ class CastShCLIOptionsTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             args = self.parser.parse_args(["--help"])
             self.assertFalse(args.version)
+
+    def test_default_password(self):
+        args = self.parser.parse_args([])
+        self.assertEqual(args.password, "admin")
+
+    def test_password(self):
+        password = str("ItsMySecret")
+        args = self.parser.parse_args(["--password", password])
+        self.assertEqual(args.password, password)
