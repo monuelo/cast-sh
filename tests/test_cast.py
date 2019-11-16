@@ -48,6 +48,18 @@ class TestCast(BasicChromeTest):
         sleep(2.5)
         assert self.driver.title == "Not Found - cast.sh"
 
+
+    def test_login(self):
+        self.driver.get("http://127.0.0.1:5000")
+        password = self.driver.find_element(By.ID, "password")
+        password.send_keys("admin")
+
+        login = self.driver.find_element(By.ID, "button")
+        login.click()        
+        
+        sleep(2.5)
+        assert self.driver.title == "cast.sh"
+
     # def test_empty_session_log_download(self):
     #     self.driver.get("http://127.0.0.1:5000")
     #     tabs = self.driver.find_elements(By.CLASS_NAME, "tab")
