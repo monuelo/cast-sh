@@ -35,22 +35,24 @@ app = Flask(__name__, template_folder=".", static_folder=".", static_url_path=""
 
 app.config["fd"] = None
 app.config["logged"] = False
-app.config["private"] = False
 app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
 app.config["log_file"] = r"log_data/"
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+
+def random_string(string_length=10):
+    """Generate a random string of fixed length """
+    letters = string.ascii_lowercase
+    return "".join(random.choice(letters) for i in range(string_length))
+
 app.config["JWT_SECRET_KEY"] = random_string()
 
 jwt = JWTManager(app)
 socketio = flask_socketio.SocketIO(app)
 
 
-def random_string(string_length=10):
-    """Generate a random string of fixed length """
-    letters = string.ascii_lowercase
-    return "".join(random.choice(letters) for i in range(string_length))
+
 
 
 def read_and_forward_pty_output(session_id):
@@ -75,14 +77,6 @@ def read_and_forward_pty_output(session_id):
                         namespace="/cast",
                     )
 
-
-def setup_session():
-    passwd = os.getenv("CAST_PASSWORD")
-    if passwd is not None:
-        app.config["private"] = True
-        app.config["passwd"] = passwd
-
-
 @jwt.unauthorized_loader
 def unauthorized_response(callback):
     return redirect("/")
@@ -105,6 +99,7 @@ def index():
 def login():
     if request.method == "GET":
         return render_template("login.html")
+        
     elif request.method == "POST":
         data = request.json
         if data["password"] == app.config["passwd"]:
@@ -238,7 +233,7 @@ def download(file_path):
         return send_from_directory(
             app.config["log_file"], filename=file_path, as_attachment=True
         )
-    except BadRequest as e:
+    except BadRequest:
         return 404
 
 
@@ -253,6 +248,7 @@ def main():
     parser.add_argument("-p", "--port", default=5000, help="port to run server on")
     parser.add_argument("--debug", action="store_true", help="debug the server")
     parser.add_argument("--version", action="store_true", help="print version and exit")
+    parser.add_argument("--password", default="admin", help="cast password")
     parser.add_argument(
         "--command", default="bash", help="Command to run in the terminal"
     )
@@ -266,9 +262,9 @@ def main():
         print(__version__)
         exit(0)
 
-    setup_session()
-    print("serving on http://0.0.0.0:{}".format(args.port))
+    app.config["passwd"] = args.password
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
+    print("serving on http://0.0.0.0:{}".format(args.port))
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
 
 
