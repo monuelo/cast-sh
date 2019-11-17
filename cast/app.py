@@ -57,6 +57,21 @@ jwt = JWTManager(app)
 socketio = flask_socketio.SocketIO(app)
 
 
+def update_session_logger(data):
+    app.config["current_session"] = data["session_id"]
+    log = Logging(app.config["current_session"])
+    return log
+
+
+def write_input(file_descriptor, data, log):
+    if file_descriptor:
+        if data["input"] == "":
+            os.write(file_descriptor, b"\x00")
+        else:
+            log.write_log(data["input"])
+            os.write(file_descriptor, data["input"].encode())
+
+
 def read_and_forward_pty_output(session_id):
     max_read_bytes = 1024 * 2
     app.config["current_session"] = session_id
@@ -193,21 +208,10 @@ def connect(data=None):
 
 @socketio.on("client-input", namespace="/cast")
 def client_input(data):
-    # Update current session
-    app.config["current_session"] = data["session_id"]
-    print("input: {}")
-    log = Logging(app.config["current_session"])
-
+    log = update_session_logger(data)
     if data["session_id"] in app.config["sessions"]:
         file_desc = app.config["sessions"][data["session_id"]]["fd"]
-
-        if file_desc:
-            if data["input"] == "":
-                # When switching sessions, send a key to update terminal content
-                os.write(file_desc, b"\x00")
-            else:
-                log.write_log(data["input"])
-                os.write(file_desc, data["input"].encode())
+        write_input(file_desc, data, log)
 
 
 # This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
