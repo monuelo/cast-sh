@@ -288,7 +288,7 @@ def main():
         app.config["passwd"] = env_pass
     else:
         app.config["passwd"] = args.password
-    
+
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
     print("serving on http://0.0.0.0:{}".format(args.port))
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
