@@ -1,7 +1,11 @@
 import unittest
 from random import randint
 
-from cast.app import app, create_parser
+from cast.app import app, create_parser, socketio
+from cast.logger import Logging
+
+import os
+import shlex
 
 
 class CastShRouteTests(unittest.TestCase):
@@ -13,6 +17,14 @@ class CastShRouteTests(unittest.TestCase):
     def test_home_status_code(self):
         result = self.app.get("/")
         self.assertEqual(result.status_code, 200)
+
+    def test_cast_status_code(self):
+        result = self.app.get("/cast")
+        self.assertEqual(result.status_code, 302)
+
+    def test_not_found_404_code(self):
+        result = self.app.get("/nonexistingroute")
+        self.assertEqual(result.status_code, 404)
 
     def test_download_404_code(self):
         result = self.app.get("/download/")
@@ -63,3 +75,12 @@ class CastShCLIOptionsTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             args = self.parser.parse_args(["--help"])
             self.assertFalse(args.version)
+
+    def test_default_password(self):
+        args = self.parser.parse_args([])
+        self.assertEqual(args.password, "admin")
+
+    def test_password(self):
+        password = str("ItsMySecret")
+        args = self.parser.parse_args(["--password", password])
+        self.assertEqual(args.password, password)
