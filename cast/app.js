@@ -174,13 +174,7 @@ const closeButton = (ssid) => {
   return close_button
 }
 
-const appendTab = (ssid) => {
-  let header = $(".header");
-  let element = $("#create-tab");
-
-  let tab = newTab(ssid);
-  let close = closeButton(ssid);
-
+const eventRegister = (tab, close) => {
   tab.addEventListener('click', (e) => {
     clickCount++;
     currentSsid = ssid;
@@ -199,14 +193,24 @@ const appendTab = (ssid) => {
           editTab(e.target.id);
         }
     }
-}, false)
+}, false);
   
 
   close.addEventListener('click', (e) => {
     console.log(e.target.id);
     closeSession(e.target.id);
     currentSsid = ssid;
-  })
+  });
+}
+
+const appendTab = (ssid) => {
+  let header = $(".header");
+  let element = $("#create-tab");
+
+  let tab = newTab(ssid);
+  let close = closeButton(ssid);
+
+  eventRegister(tab, close);
 
   header.insertBefore(tab, element);
   header.insertBefore(close, element);
