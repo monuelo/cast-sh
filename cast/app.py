@@ -155,15 +155,9 @@ def new_session(data=None):
 
         print("new-session: child pid is", child_pid)
         print(
-            "new-session: starting background task with command `{}` to continously read "
-            "and forward pty output to client".format(cmd)
-        )
-        """
-        print(
             f"new-session: starting background task with command `{cmd}` to continously read "
             "and forward pty output to client"
         )
-        """
 
         socketio.start_background_task(
             target=read_and_forward_pty_output, session_id=session_id
@@ -181,45 +175,19 @@ def connect(data=None):
     )
     if session_id == "" and data is not None:
         session_id = data["session_id"]
-        print("connect: {}\n".format(session_id))
+        print(f"connect: {session_id}\n")
 
     # Create new session only when id not in records
     if session_id in app.config["sessions"]:
         return
 
-    (child_pid, fd) = pty.fork()
+    (child_pid) = pty.fork()
 
+    # child: start system command
     if child_pid == 0:
-        # child: start system command
         subprocess.run(app.config["cmd"])
     else:
-        # parent: print info, stream child input/output to socketio
-        # Store sessions by ssid
-        print("opening a new session")
-        app.config["sessions"] = {}
-        app.config["sessions"][session_id] = {}
-        app.config["sessions"][session_id]["fd"] = fd
-        app.config["sessions"][session_id]["child_pid"] = child_pid
-
-        cmd = " ".join(shlex.quote(c) for c in app.config["cmd"])
-
-        print("connect: child pid is", child_pid)
-        print(
-            "connect: starting background task with command `{}` to continously read "
-            "and forward pty output to client".format(cmd)
-        )
-        """
-        print(
-            f"new-session: starting background task with command `{cmd}` to continously read "
-            "and forward pty output to client"
-        )
-        """
-
-        # Output terminal message corresponding to ssid
-        socketio.start_background_task(
-            target=read_and_forward_pty_output, session_id=session_id
-        )
-
+        new_session(data={"session_id": session_id})
         print("connect: task started")
 
 
@@ -227,7 +195,7 @@ def connect(data=None):
 def client_input(data):
     # Update current session
     app.config["current_session"] = data["session_id"]
-    print("input: {}".format(app.config["sessions"]))
+    print("input: {}")
     log = Logging(app.config["current_session"])
 
     if data["session_id"] in app.config["sessions"]:
@@ -290,7 +258,7 @@ def main():
         app.config["passwd"] = args.password
 
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
-    print("serving on http://0.0.0.0:{}".format(args.port))
+    print(f"serving on http://0.0.0.0:{args.port}")
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
 
 
