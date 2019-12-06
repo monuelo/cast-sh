@@ -34,6 +34,8 @@ To start the terminal cast application, run:
 ```
 python3 -m cast
 ```
+
+
 #### Arguments
 ```
 optional arguments:
@@ -45,7 +47,19 @@ optional arguments:
   --command COMMAND         Command to run in the terminal (default: bash)
   --cmd-args CMD_ARGS       arguments to pass to command (i.e. --cmd-args='arg1
                             arg2 --flag') (default: )
+  --password PASSWORD       set a password for accessing cast-sh
+                            sessions (default: admin)
 ```
+#### A password can be set using an environment variable as well.
+Unix
+```
+export PASSWORD="weakpassword"
+```
+Windows
+```
+set PASSWORD="weakpassword"
+```
+
 #### Docker
 Build image
 ```
