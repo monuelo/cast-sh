@@ -1,7 +1,7 @@
 ![cast-sh](art/cast-sh-header.png)
 <p align="center">
-    <a href="https://travis-ci.org/pod-cast/cast-sh">
-        <img src="https://travis-ci.org/pod-cast/cast-sh.svg?branch=master"
+    <a href="https://github.com/pod-cast/cast-sh/actions?query=workflow%3A%22Python+package%22">
+        <img src="https://github.com/pod-cast/cast-sh/workflows/Python%20package/badge.svg"
             alt="Build Status"/></a>
     <a href="https://github.com/pod-cast/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/pod-cast/cast-sh" /></a>
