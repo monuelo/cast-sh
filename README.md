@@ -1,7 +1,7 @@
 ![cast-sh](art/cast-sh-header.png)
 <p align="center">
-    <a href="https://github.com/pod-cast/cast-sh/actions?query=workflow%3A%22Python+package%22">
-        <img src="https://github.com/pod-cast/cast-sh/workflows/Python%20package/badge.svg"
+    <a href="https://github.com/pod-cast/cast-sh/actions?query=workflow%3A%22build%22">
+        <img src="https://github.com/pod-cast/cast-sh/workflows/build/badge.svg"
             alt="Build Status"/></a>
     <a href="https://github.com/pod-cast/cast-sh/graphs/contributors" alt="Contributors">
         <img src="https://img.shields.io/github/contributors/pod-cast/cast-sh" /></a>
