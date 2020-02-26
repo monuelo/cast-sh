@@ -257,7 +257,7 @@ def create_parser():
     parser = argparse.ArgumentParser(
         description=(
             "An adorable instance of your terminal in your browser."
-            "https://github.com/pod-cast/cast-sh"
+            "https://github.com/pipeflow/cast-sh"
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
