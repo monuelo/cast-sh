@@ -12,7 +12,7 @@
     <a class="reference external" href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
     <a href="https://github.com/PipeFlow/cast-sh/pulse" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/m/pipeflow/cast-sh" /></a>
-    <a href="https://github.com/PipeFlow/cast-sh/blob/master/LICENSE" alt="License">
+    <a href="https://github.com/PipeFlow/cast-sh/blob/dev/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/PipeFlow/cast-sh" /></a>
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=shield"/></a>
     <a href="https://gitter.im/PipeFlowOrg/cast-sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge" alt="Gitter"><img src="https://badges.gitter.im/PipeFlowOrg/cast-sh.svg"/></a>
