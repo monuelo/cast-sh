@@ -15,7 +15,7 @@
     <a href="https://github.com/PipeFlow/cast-sh/blob/master/LICENSE" alt="License">
         <img src="https://img.shields.io/github/license/PipeFlow/cast-sh" /></a>
     <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpod-cast%2Fcast-sh.svg?type=shield"/></a>
-    <a href="https://gitter.im/PipeFlow/cast-sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge" alt="Gitter"><img src="https://badges.gitter.im/PipeFlow/cast-sh.svg"/></a>
+    <a href="https://gitter.im/PipeFlowOrg/cast-sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge" alt="Gitter"><img src="https://badges.gitter.im/PipeFlowOrg/cast-sh.svg"/></a>
     <a href="https://lgtm.com/projects/g/PipeFlow/cast-sh/alerts/">
         <img src="https://img.shields.io/lgtm/alerts/g/PipeFlow/cast-sh"
             alt="Total alerts"/></a>
