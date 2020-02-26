@@ -1,0 +1,8 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+
+[report]
+exclude_lines =
+    if __name__ == .__main__.:
+    __version__ = "0.1.0"

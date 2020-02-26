@@ -1,33 +1,64 @@
 #!/usr/bin/env python3
 import argparse
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO
+
+from flask import (
+    Flask,
+    render_template,
+    request,
+    send_from_directory,
+    redirect,
+    jsonify,
+)
+
+import sys
+
+import flask_socketio
+
+from flask_jwt_extended import (
+    JWTManager,
+    jwt_required,
+    create_access_token,
+    set_access_cookies,
+)
+
+from werkzeug.exceptions import BadRequest
+import json
+from .logger import Logging
 import pty
 import os
 import subprocess
 import select
 import shlex
+import random
+import string
 
 __version__ = "0.0.1"
 
-app = Flask(__name__, template_folder=".",
-            static_folder=".", static_url_path="")
+app = Flask(__name__, template_folder=".", static_folder=".", static_url_path="")
+
 app.config["fd"] = None
+app.config["logged"] = False
 app.config["child_pid"] = None
 app.config["current_session"] = None
 app.config["sessions"] = {}
-socketio = SocketIO(app)
+app.config["log_file"] = r"log_data/"
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 
 
-def setup_default_session(session_id):
-    app.config["current_session"] = session_id
-    app.config["sessions"][session_id] = {"fd": None, "child_pid": None}
+def random_string(string_length=10):
+    """Generate a random string of fixed length """
+    letters = string.ascii_lowercase
+    return "".join(random.choice(letters) for i in range(string_length))
 
-    return app.config["sessions"][session_id]
+
+app.config["JWT_SECRET_KEY"] = random_string()
+
+jwt = JWTManager(app)
+socketio = flask_socketio.SocketIO(app)
 
 
 def read_and_forward_pty_output(session_id):
-    max_read_bytes = 1024 * 20
+    max_read_bytes = 1024 * 2
     app.config["current_session"] = session_id
 
     while True:
@@ -39,46 +70,72 @@ def read_and_forward_pty_output(session_id):
 
             if file_desc:
                 timeout_sec = 0
-                (data_ready, _, _) = select.select(
-                    [file_desc], [], [], timeout_sec)
+                (data_ready, _, _) = select.select([file_desc], [], [], timeout_sec)
                 if data_ready:
-                    output = os.read(file_desc, max_read_bytes).decode()
-                    socketio.emit(
-                        "client-output", {"output": output, "ssid": app.config["current_session"]}, namespace="/cast")
+                    try:
+                        output = os.read(file_desc, max_read_bytes).decode()
+                        if len(output) > 3 or output == r"\b":
+                            socketio.emit(
+                                "client-output",
+                                {
+                                    "output": output,
+                                    "ssid": app.config["current_session"],
+                                },
+                                namespace="/cast",
+                            )
+                    except OSError:
+                        socketio.emit("disconnect", namespace="/cast")
+                        sys.exit(0)
 
 
-@app.route("/")
+@jwt.unauthorized_loader
+def unauthorized_response(callback):
+    return redirect("/")
+
+
+@jwt.invalid_token_loader
+def invalid_token(callback):
+    return redirect("/")
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
+
+
+@app.route("/cast")
+@jwt_required
 def index():
+    log = Logging(app.config["current_session"])
+    log.make_log_folder()
     return render_template("index.html")
 
 
-@socketio.on("client-input", namespace="/cast")
-def client_input(data):
+@app.route("/", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
 
-    # Update current session
-    app.config["current_session"] = data["session_id"]
-    print("input: {}".format(app.config["sessions"]))
-
-    if data["session_id"] in app.config["sessions"]:
-        file_desc = app.config["sessions"][data["session_id"]]["fd"]
-
-        if file_desc:
-            if data["input"] == '':
-                # When switching sessions, send a key to update terminal content
-                os.write(file_desc, b'\x00')
-            else:
-                os.write(file_desc, data["input"].encode())
+    elif request.method == "POST":
+        data = request.json
+        if data["password"] == app.config["passwd"]:
+            access_token = create_access_token(identity=os.getenv("JOB_ID"))
+            resp = jsonify({"login": True})
+            set_access_cookies(resp, access_token)
+            return resp
+        else:
+            return json.dumps(request.get_json()), 401
 
 
 @socketio.on("new-session", namespace="/cast")
 def new_session(data=None):
     """To register session on WebSocket server
-    Similar to 'connect()'
+    Similar to 'connect()', used for adding a new tab session
     """
-    session_id = ''
+    session_id = ""
     if data is not None:
         session_id = data["session_id"]
-    print("new-session: {}\n\n".format(session_id))
+    print("new-session: {}\n".format(session_id))
 
     if session_id in app.config["sessions"]:
         return
@@ -101,20 +158,30 @@ def new_session(data=None):
             "new-session: starting background task with command `{}` to continously read "
             "and forward pty output to client".format(cmd)
         )
+        """
+        print(
+            f"new-session: starting background task with command `{cmd}` to continously read "
+            "and forward pty output to client"
+        )
+        """
 
         socketio.start_background_task(
-            target=read_and_forward_pty_output, session_id=session_id)
+            target=read_and_forward_pty_output, session_id=session_id
+        )
 
         print("new-session: task started")
 
 
 @socketio.on("connect", namespace="/cast")
 def connect(data=None):
-    session_id = request.values.get('session_id') if not request.values.get(
-        'session_id') is None else ''
-    if session_id == '' and data is not None:
+    session_id = (
+        request.values.get("session_id")
+        if not request.values.get("session_id") is None
+        else ""
+    )
+    if session_id == "" and data is not None:
         session_id = data["session_id"]
-        print("connect: {}\n\n".format(session_id))
+        print("connect: {}\n".format(session_id))
 
     # Create new session only when id not in records
     if session_id in app.config["sessions"]:
@@ -141,28 +208,63 @@ def connect(data=None):
             "connect: starting background task with command `{}` to continously read "
             "and forward pty output to client".format(cmd)
         )
+        """
+        print(
+            f"new-session: starting background task with command `{cmd}` to continously read "
+            "and forward pty output to client"
+        )
+        """
 
         # Output terminal message corresponding to ssid
         socketio.start_background_task(
-            target=read_and_forward_pty_output, session_id=session_id)
+            target=read_and_forward_pty_output, session_id=session_id
+        )
 
         print("connect: task started")
 
 
-def main():
+@socketio.on("client-input", namespace="/cast")
+def client_input(data):
+    # Update current session
+    app.config["current_session"] = data["session_id"]
+    print("input: {}".format(app.config["sessions"]))
+    log = Logging(app.config["current_session"])
+
+    if data["session_id"] in app.config["sessions"]:
+        file_desc = app.config["sessions"][data["session_id"]]["fd"]
+
+        if file_desc:
+            if data["input"] == "":
+                # When switching sessions, send a key to update terminal content
+                os.write(file_desc, b"\x00")
+            else:
+                log.write_log(data["input"])
+                os.write(file_desc, data["input"].encode())
+
+
+# This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
+@app.route("/download/<string:file_path>")
+def download(file_path):
+    try:
+        return send_from_directory(
+            app.config["log_file"], filename=file_path, as_attachment=True
+        )
+    except BadRequest:
+        return 404
+
+
+def create_parser():
     parser = argparse.ArgumentParser(
         description=(
             "An adorable instance of your terminal in your browser."
-            "https://github.com/hericlesme/cast-sh"
+            "https://github.com/pipeflow/cast-sh"
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("-p", "--port", default=5000,
-                        help="port to run server on")
-    parser.add_argument("--debug", action="store_true",
-                        help="debug the server")
-    parser.add_argument("--version", action="store_true",
-                        help="print version and exit")
+    parser.add_argument("-p", "--port", default=5000, help="port to run server on")
+    parser.add_argument("--debug", action="store_true", help="debug the server")
+    parser.add_argument("--version", action="store_true", help="print version and exit")
+    parser.add_argument("--password", default="admin", help="cast password")
     parser.add_argument(
         "--command", default="bash", help="Command to run in the terminal"
     )
@@ -171,12 +273,24 @@ def main():
         default="",
         help="arguments to pass to command (i.e. --cmd-args='arg1 arg2 --flag')",
     )
+    return parser
+
+
+def main():
+    parser = create_parser()
     args = parser.parse_args()
     if args.version:
         print(__version__)
-        exit(0)
-    print("serving on http://0.0.0.0:{}".format(args.port))
+        sys.exit(0)
+
+    env_pass = os.getenv("PASSWORD")
+    if env_pass is not None:
+        app.config["passwd"] = env_pass
+    else:
+        app.config["passwd"] = args.password
+
     app.config["cmd"] = [args.command] + shlex.split(args.cmd_args)
+    print("serving on http://0.0.0.0:{}".format(args.port))
     socketio.run(app, host="0.0.0.0", debug=args.debug, port=args.port)
 
 

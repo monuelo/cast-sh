@@ -1,9 +1,5 @@
-FROM ubuntu:latest
-
+FROM python:3.6
 MAINTAINER Héricles "hericles.me@gmail.com"
-
-RUN apt-get update
-RUN apt-get install -y build-essential python3.6 python3.6-dev python3-pip python3.6-venv
 
 COPY . /app
 
@@ -11,4 +7,4 @@ WORKDIR /app
 
 RUN pip3 install -r requirements.txt
 
-CMD ["python3", "-m", "cast"]
+CMD ["python", "-m", "cast"]
