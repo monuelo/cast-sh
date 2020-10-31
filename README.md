@@ -34,6 +34,13 @@ To start the terminal cast application, run:
 python3 -m cast
 ```
 
+Or if you install the application via pip:
+```
+pip install .
+
+# command available once pkg has been installed
+cast-sh
+```
 
 #### Arguments
 ```
