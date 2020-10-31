@@ -1,18 +1,36 @@
+import json
+import os
+
 from flask import current_app as app
+from werkzeug.exceptions import BadRequest
 from flask import (
     Blueprint,
     request,
+    redirect,
     render_template,
-    send_from_directory
+    send_from_directory,
+    jsonify,
 )
 from flask_jwt_extended import (
     jwt_required,
     create_access_token,
     set_access_cookies,
 )
-from werkzeug.exceptions import BadRequest
+
+from .logger import Logging
+from .app import jwt
 
 http = Blueprint("", __name__)
+
+
+@jwt.unauthorized_loader
+def unauthorized_response(callback):
+    return redirect("/")
+
+
+@jwt.invalid_token_loader
+def invalid_token(callback):
+    return redirect("/")
 
 
 @http.errorhandler(404)
@@ -53,4 +71,3 @@ def download(file_path):
         )
     except BadRequest:
         return 404
-
