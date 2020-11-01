@@ -35,10 +35,6 @@ app.config["JWT_SECRET_KEY"] = random_string()
 jwt = JWTManager(app)
 socketio = flask_socketio.SocketIO(app)
 
-from .routes import http
-
-app.register_blueprint(http, url_prefix=r"")
-
 
 def read_and_forward_pty_output(session_id):
     max_read_bytes = 1024 * 2
@@ -69,6 +65,12 @@ def read_and_forward_pty_output(session_id):
                     except OSError:
                         socketio.emit("disconnect", namespace="/cast")
                         sys.exit(0)
+
+
+from .routes import *
+from .events import *
+
+app.register_blueprint(http, url_prefix=r"")
 
 
 def create_parser():

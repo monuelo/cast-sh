@@ -3,11 +3,10 @@ import pty
 import subprocess
 import shlex
 
-from flask import current_app as app
 from flask import request
 
 from .logger import Logging
-from .app import socketio, read_and_forward_pty_output
+from .app import app, socketio, read_and_forward_pty_output
 
 
 @socketio.on("client-input", namespace="/cast")
