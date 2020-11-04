@@ -1,7 +1,6 @@
 import json
 import os
 
-from flask import current_app as app
 from werkzeug.exceptions import BadRequest
 from flask import (
     Blueprint,
@@ -18,7 +17,7 @@ from flask_jwt_extended import (
 )
 
 from .logger import Logging
-from .app import jwt
+from .app import jwt, app
 
 http = Blueprint("", __name__)
 

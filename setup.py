@@ -52,6 +52,9 @@ setup(
     dependency_links=core_dependency_links,
     setup_requires=["pytest-runner"],
     entry_points={"console_scripts": ["cast-sh=cast.__main__:main"]},
+    package_data={
+        "cast": ["login.html", "404.html", "app.css", "app.js", "index.html"]
+    },
     tests_require=tests_require,
     classifiers=[
         "Programming Language :: Python :: 3",
