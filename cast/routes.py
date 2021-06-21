@@ -38,7 +38,7 @@ def page_not_found(error):
 
 
 @http.route("/cast")
-@jwt_required
+@jwt_required()
 def index():
     log = Logging(app.config["current_session"])
     log.make_log_folder()
