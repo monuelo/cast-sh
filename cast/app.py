@@ -67,8 +67,8 @@ def read_and_forward_pty_output(session_id):
                         sys.exit(0)
 
 
-from .routes import *
-from .events import *
+from .routes import http
+from .events import client_input
 
 app.register_blueprint(http, url_prefix=r"")
 
