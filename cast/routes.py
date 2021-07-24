@@ -58,7 +58,7 @@ def login():
             set_access_cookies(resp, access_token)
             return resp
         else:
-            return json.dumps(request.get_json()), 401
+            return jsonify({"message": "Wrong password."}), 401
 
 
 # This is the route handler for DOWNLOADING the log file. Maybe a bit buggy. Please report if found
